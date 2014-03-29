@@ -1,0 +1,33 @@
+PlatyPi v#.#
+>Commands			About
+    |>Info
+	|>Network
+	    |x Method
+		|d IP Method:
+		|d DHCP/Static
+	    |x IP
+		|d IP:
+		|d ###.###.###.###
+	    |x Hostname
+		|d Hostname:
+		|d LLLLLLLLLLLLLLLL
+	    |x Subnet Mask
+		|d Sub Net Mask:
+		|d ###.###.###.###
+	    |x Default GW
+		|d Default GW:
+		|d ###.###.###.###	
+	|>System
+	    |x RAM
+		|d RAM: (T/U/F)
+		|d ###L ##% ##%
+	    |x SWAP
+		|d SWAP: (T/U/F)
+		|d ###L ##% ##%
+	    |x HDD
+		|d HDD: Mnt (T/U)
+		|d LLLLLLL ###L ##%
+	    |x Version
+		|d Linux Version:
+		|d uname
+	
