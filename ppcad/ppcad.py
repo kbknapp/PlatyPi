@@ -55,13 +55,14 @@ class ppcad:
 	
 	def load_cmds(self):
 		# Get all files in the 'commands' directory as possible commands
-		pcmds = os.listdir(os.path.join(self._self_dir, self._cmd_dir))
+		full_cmd_dir = os.listdir(os.path.join(self._self_dir, self._cmd_dir))
+		pcmds = full_cmd_dir
 		# Loop over them all, adding them to the _cmds list as sets
 		i = 0
 		for pcmd in pcmds:
 			# Check if the file is __init__.py or __init__.pyc to skip
 			# Also check for directories...skip those too
-			if pcmd[:8] == "__init__" or os.path.isdir(os.path.join(self._self_dir, pcmd)):
+			if pcmd[:8] == "__init__" or os.path.isdir(os.path.join(full_cmd_dir, pcmd)):
 				continue
 			# Add to _cmds
 			self._cmds.append({'name': '', 'compiled': False})
