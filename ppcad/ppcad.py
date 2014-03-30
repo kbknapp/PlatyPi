@@ -34,7 +34,7 @@ class ppcad:
 	def previous_cmd(self, event=None):
 		if len(self._cmds) > 0:
 			if self._curr_index == 0:
-				self._curr_index = len(self._cmds)
+				self._curr_index = (len(self._cmds)-1)
 			else:
 				self._curr_index -= 1
 			self.update_disp()
@@ -42,7 +42,7 @@ class ppcad:
 	
 	def next_cmd(self, event=None):
 		if len(self._cmds) > 0:
-			if self._curr_index == len(self._cmds):
+			if self._curr_index == (len(self._cmds)-1):
 				self._curr_index = 0
 			else:
 				self._curr_index += 1
@@ -67,10 +67,10 @@ class ppcad:
 			# Check if it's a .py or .pyc'
 			if pcmd[-1:] == 'c':
 				self._cmds[i]['compiled'] = True
-				self._cmds[i]['name'] = pcmd[:-3]
+				self._cmds[i]['name'] = pcmd[:-4]
 			else:
 				self._cmds[i]['compiled'] = False
-				self._cmds[i]['name'] = pcmd[:-2]
+				self._cmds[i]['name'] = pcmd[:-3]
 			i += 1
 	
 	def update_disp(self):
