@@ -34,7 +34,7 @@ if __name__ == "__main__":
 	exit_barrier = Barrier(2)
 	
 	# import pphome.py
-	module = __import__('ppmodules.%s' % _TO_START)
+	module = __import__('ppcad.ppmodules.%s' % _TO_START)
 	for cls in dir(module):
 		cls = getattr(module, cls)
 		if (inspect.isclass(cls) and inspect.getmodule(cls) == module and issubclass(cls,_PPMOD)):
