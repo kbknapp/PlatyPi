@@ -95,7 +95,7 @@ if __name__ == "__main__":
 	# Set up CAD
 	cad = pifacecad.PiFaceCAD()
 	cad.lcd.blink_off()
-	cad.lcd.cursor_off()
+	#cad.lcd.cursor_off()
 	cad.lcd.backlight_off()
 	cad.lcd.clear()
 	my_cad = ppcad(cad, _WELCOME, _CMD_DIR)
