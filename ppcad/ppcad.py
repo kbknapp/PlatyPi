@@ -60,7 +60,8 @@ class ppcad:
 		i = 0
 		for pcmd in pcmds:
 			# Check if the file is __init__.py or __init__.pyc to skip
-			if pcmd[:8] == "__init__":
+			# Also check for directories...skip those too
+			if pcmd[:8] == "__init__" or os.path.isdir(pcmd):
 				continue
 			# Add to _cmds
 			self._cmds.append({'name': '', 'compiled': False})
