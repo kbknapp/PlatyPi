@@ -17,7 +17,7 @@ class PPModule(object):
 	_curr_index = 0			# The currently displayed module
 	_cad = None				# The PiFaceCAD
 	_exit_barrier = None	# The Exit Barrier
-	_search_dir = '.'		# Where to search for platypi modules
+	_search_dir = os.path.dirname(os.path.abspath(__file__))		# Where to search for platypi modules
 	_title = 'Home Module v0.1'
 	_first = True
 	_listener = None
