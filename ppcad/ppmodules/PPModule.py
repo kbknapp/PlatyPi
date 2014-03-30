@@ -18,13 +18,14 @@ class PPModule(object):
 	_cad = None				# The PiFaceCAD
 	_exit_barrier = None	# The Exit Barrier
 	_search_dir = '.'		# Where to search for platypi modules
-	_title = ''
+	_title = 'Home Module v0.1'
 	_first = True
 	
-	def __init__(self, cad, title='Home Module v0.1', exit_barrier):
+	def __init__(self, cad, title, exit_barrier):
 		self._cad = cad
 		self._exit_barrier = exit_barrier
-		self._title = title
+		if title != '':
+			self._title = title
 	
 	
 	def previous_cmd(self, event=None):
