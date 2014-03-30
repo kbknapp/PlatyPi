@@ -66,12 +66,12 @@ class PPModule(object):
 		for root, dirs, files in os.walk(self._search_dir):
 			# Add all the directories
 			for dir_name in dirs:
-				if dir_name.starts_with('__'):
+				if dir_name[:2] == "__":
 					continue
 				self._ppmodules.append({'name': dir_name, 'compiled': False, 'type': 'directory'})
 			for file_name in files:
 				# First check to make sure we're not adding ourself, or any __init__.py files
-				if file_name.starts_with('__') or os.path.basename(__file__) == file_name:
+				if file_name[:2] == '__' or os.path.basename(__file__) == file_name:
 					continue
 				if os.path.splitext(file_name)[1] == '.pyc':
 					self._ppmodules.append({'name': file_name, 'compiled': True, 'type': 's'})
