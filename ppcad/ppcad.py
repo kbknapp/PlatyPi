@@ -27,7 +27,7 @@ class ppcad:
 		self._cmds = []
 		self._curr_index = 0
 		self._cad = cad
-		self._self_dir = os.path.realpath(__file__)
+		self._self_dir = os.path.realpath(__file__)[:-8]
 		self._cmd_dir = cmd_dir
 		self.update_disp()
 	
