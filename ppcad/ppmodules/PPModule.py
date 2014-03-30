@@ -11,13 +11,14 @@ import pifacecad
 from threading import Barrier
 import os
 import inspect
+from collections import deque
 
 class PPModule(object):
-	_ppmodules = []			# A list of modules to display to the user
+	_ppmodules = deque()			# A list of modules to display to the user
 	_curr_index = 0			# The currently displayed module
 	_cad = None				# The PiFaceCAD
 	_exit_barrier = None	# The Exit Barrier
-	_search_dir = os.path.dirname(os.path.abspath(__file__))		# Where to search for platypi modules
+	_search_dir = deque()
 	_title = 'Home Module v0.1'
 	_first = True
 	_listener = None
@@ -32,10 +33,11 @@ class PPModule(object):
 		if title != '':
 			self._title = title
 		self._listener = pifacecad.SwitchEventListener(chip=cad)
+		self._search_dir.append(os.path.dirname(os.path.abspath(__file__)))
 	
 	
 	def previous_cmd(self, event=None):
-		if len(self._ppmodules) > 0:
+		if len(self._ppmodules[0]) > 0:
 			if self._curr_index == 0:
 				self._curr_index = (len(self._ppmodules)-1)
 			else:
@@ -53,10 +55,20 @@ class PPModule(object):
 	
 	
 	def run_cmd(self, event=None):
-		ppm = self.load_ppmodule(self._curr_index)
-		exit_barrier = Barrier(2)
-		ppm(self._cad, '', exit_barrier).start()
-		exit_barrier.wait()
+		curr_dict = self._ppmodules[0][self._curr_index]
+		if curr_dict['type'] == 'directory':
+			self._search_dir.appendleft(os.path.join(self._search_dir[0], curr_dict['name']))
+			self.find_ppmodules()
+			self._ppmodules[0].append({'name': "Back", 'compiled': False, 'type': 'function'})
+		elif curr_dict['type'] == 'function':
+			if curr_dict['name'] == "Back":
+				self._search_dir.popleft()
+				self._ppmodules.popleft()
+			elif curr_dict['name'] == "Quit":
+				self.close()
+		else:
+			pass
+		self.update_disp()
 	
 	
 	def load_ppmodule(self, index):
@@ -70,6 +82,7 @@ class PPModule(object):
 		print("Looking for modules...")
 		# PPModules are files, but folders are displayed to the user to
 		# the interface clean and navigationally organized
+		self._ppmodules.appendleft([])
 		for root, dirs, files in os.walk(self._search_dir):
 			# Add all the directories
 			for dir_name in dirs:
@@ -78,7 +91,7 @@ class PPModule(object):
 					print("Found something starting with __, skipping...")
 					continue
 				print("Found a directory named, %s" % dir_name)
-				self._ppmodules.append({'name': dir_name, 'compiled': False, 'type': 'directory'})
+				self._ppmodules[0].append({'name': dir_name, 'compiled': False, 'type': 'directory'})
 			for file_name in files:
 				print("Looking through files of %s" % root)
 				# First check to make sure we're not adding ourself, or any __init__.py files
@@ -87,10 +100,11 @@ class PPModule(object):
 					continue
 				if os.path.splitext(file_name)[1] == '.pyc':
 					print("Found a compiled script %s" % file_name)
-					self._ppmodules.append({'name': file_name, 'compiled': True, 'type': 's'})
+					self._ppmodules[0].append({'name': file_name, 'compiled': True, 'type': 's'})
 				else:
 					print("Found a script %s" % file_name)
-					self._ppmodules.append({'name': file_name, 'compiled': False, 'type': 's'})
+					self._ppmodules[0].append({'name': file_name, 'compiled': False, 'type': 's'})
+			self._ppmodules[0].append({'name': "Quit", 'compiled': False, 'type': 'function'})
 			break		# Only doing one iteration (current dir only)
 	
 	
