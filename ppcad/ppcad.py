@@ -78,6 +78,7 @@ class ppcad:
 		if len(self._cmds) > 0:
 			self._cad.lcd.set_cursor(0,1)
 			self._cad.lcd.write(' '*16)
+			self._cad.lcd.set_cursor(0,1)
 			self._cad.lcd.write("%s" % (self._cmds[self._curr_index]['name']))
 		else:
 			self._cad.lcd.clear()
@@ -95,7 +96,7 @@ if __name__ == "__main__":
 	# Set up CAD
 	cad = pifacecad.PiFaceCAD()
 	cad.lcd.blink_off()
-	#cad.lcd.cursor_off()
+	cad.lcd.cursor_off()
 	cad.lcd.backlight_off()
 	cad.lcd.clear()
 	my_cad = ppcad(cad, _WELCOME, _CMD_DIR)
