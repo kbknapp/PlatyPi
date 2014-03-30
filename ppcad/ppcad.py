@@ -75,11 +75,13 @@ class ppcad:
 	
 	def update_disp(self):
 		self._cad.lcd.home()
-		self._cad.lcd.clear()
 		if len(self._cmds) > 0:
-			self._cad.lcd.write("%s\n%s" % (self._title, self._cmds[self._curr_index]['name']))
+			self._cad.lcd.set_cursor(0,1)
+			self._cad.lcd.write(' '*16)
+			self._cad.lcd.write("%s" % (self._cmds[self._curr_index]['name']))
 		else:
-			self._cad.lcd.write("%s\n" % self._title)
+			self._cad.lcd.clear()
+			self._cad.lcd.write(self._title)
 	
 	
 	def close(self):
