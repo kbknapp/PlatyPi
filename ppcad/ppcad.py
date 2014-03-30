@@ -19,7 +19,7 @@ ROCKER_RIGHT = 7
 ROCKER_PUSH = 5
 
 _WELCOME = "PlatyPi v0.1"
-_CMD_DIR = "commands"
+_CMD_DIR = "ppmodules"
 
 class ppcad:
 	def __init__(self, cad, title, cmd_dir):
