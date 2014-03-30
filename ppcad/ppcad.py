@@ -55,8 +55,8 @@ class ppcad:
 	
 	def load_cmds(self):
 		# Get all files in the 'commands' directory as possible commands
-		full_cmd_dir = os.listdir(os.path.join(self._self_dir, self._cmd_dir))
-		pcmds = full_cmd_dir
+		full_cmd_dir = os.path.join(self._self_dir, self._cmd_dir)
+		pcmds = os.listdir(full_cmd_dir)
 		# Loop over them all, adding them to the _cmds list as sets
 		i = 0
 		for pcmd in pcmds:
