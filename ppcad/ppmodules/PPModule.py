@@ -20,6 +20,10 @@ class PPModule(object):
 	_search_dir = '.'		# Where to search for platypi modules
 	_title = 'Home Module v0.1'
 	_first = True
+	_listener = None
+	_ROCKER_PUSH = 5
+	_ROCKER_RIGHT = 7
+	_ROCKER_LEFT = 6
 	
 	def __init__(self, cad, title, exit_barrier):
 		print("Making PPModule...")
@@ -27,6 +31,7 @@ class PPModule(object):
 		self._exit_barrier = exit_barrier
 		if title != '':
 			self._title = title
+		self._listener = pifacecad.SwitchEventListener(chip=cad)
 	
 	
 	def previous_cmd(self, event=None):
@@ -102,14 +107,15 @@ class PPModule(object):
 			print("Not the first time, clearing only the second row...")
 			self._cad.lcd.set_cursor(0, 1)
 			self._cad.lcd.write(' '*16)
-			self._cad.lcd.set_cursor(0, 1)
 		
+		self._cad.lcd.set_cursor(0, 1)
 		print("Writing a module name %s" % (self._ppmodules[self._curr_index]['name']))
 		# write the current ppmodule name on the display
 		self._cad.lcd.write(self._ppmodules[self._curr_index]['name'])
 	
 	
 	def close(self):
+		self._listener.deactivate()
 		self._exit_barrier.wait()
 	
 	
@@ -117,3 +123,7 @@ class PPModule(object):
 		print("Starting PPModule...")
 		self.find_ppmodules()
 		self.update_disp()
+		self._listener.register(self._ROCKER_PUSH, pifacecad.IO_DIR, self.run_cmd)
+		self._listener.register(self._ROCKER_LEFT, pifacecad.IO_DIR, self.previous_cmd)
+		self._listener.register(self._ROCKER_RIGHT, pifacecad.IO_DIR, self.next_cmd)
+		self._listener.activate()
