@@ -1,6 +1,29 @@
 {
+  "mainFile": "", 
+  "use-tabs": true, 
   "venv": "", 
+  "relatedProjects": [], 
   "name": "PlatyPi", 
   "license": "GNU General Public License v2", 
+  "url": "", 
+  "pythonPath": "python", 
+  "preExecScript": "", 
+  "additional_builtins": [], 
+  "programParams": "", 
+  "indentation": 4, 
+  "PYTHONPATH": "", 
+  "supported-extensions": [
+    ".py", 
+    ".html", 
+    ".jpg", 
+    ".png", 
+    ".ui", 
+    ".css", 
+    ".json", 
+    ".js", 
+    ".ini"
+  ], 
+  "project-type": "", 
+  "postExecScript": "", 
   "description": ""
 }

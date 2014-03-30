@@ -9,6 +9,7 @@
 #	v0.1
 #		* Initial Release
 #
+import PPModuleBase
 
 class PPHome(PPModuleBase):
 	pass
