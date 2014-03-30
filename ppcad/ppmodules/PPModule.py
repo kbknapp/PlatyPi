@@ -22,6 +22,7 @@ class PPModule(object):
 	_first = True
 	
 	def __init__(self, cad, title, exit_barrier):
+		print("Making PPModule...")
 		self._cad = cad
 		self._exit_barrier = exit_barrier
 		if title != '':
@@ -61,37 +62,49 @@ class PPModule(object):
 				return cls
 	
 	def find_ppmodules(self):
+		print("Looking for modules...")
 		# PPModules are files, but folders are displayed to the user to
 		# the interface clean and navigationally organized
 		for root, dirs, files in os.walk(self._search_dir):
 			# Add all the directories
 			for dir_name in dirs:
+				print("Looking through directories of %s" % root)
 				if dir_name[:2] == "__":
+					print("Found something starting with __, skipping...")
 					continue
+				print("Found a directory named, %s" % dir_name)
 				self._ppmodules.append({'name': dir_name, 'compiled': False, 'type': 'directory'})
 			for file_name in files:
+				print("Looking through files of %s" % root)
 				# First check to make sure we're not adding ourself, or any __init__.py files
 				if file_name[:2] == '__' or os.path.basename(__file__) == file_name:
+					print("Found something starting with __, skipping...")
 					continue
 				if os.path.splitext(file_name)[1] == '.pyc':
+					print("Found a compiled script %s" % file_name)
 					self._ppmodules.append({'name': file_name, 'compiled': True, 'type': 's'})
 				else:
+					print("Found a script %s" % file_name)
 					self._ppmodules.append({'name': file_name, 'compiled': False, 'type': 's'})
 			break		# Only doing one iteration (current dir only)
 	
 	
 	
 	def update_disp(self):
+		print("Updating the display...")
 		# Clear bottom row and reset cursor to bottom row
 		if(self._first):
+			print("First time!")
 			self._cad.lcd.home()
 			self._cad.lcd.write("%s\n%s" % (self._title, ' '*16))
 			self._first = False
 		else:
+			print("Not the first time, clearing only the second row...")
 			self._cad.lcd.set_cursor(0, 1)
 			self._cad.lcd.write(' '*16)
 			self._cad.lcd.set_cursor(0, 1)
 		
+		print("Writing a module name %s" % (self._ppmodules[self._curr_index]['name']))
 		# write the current ppmodule name on the display
 		self._cad.lcd.write(self._ppmodules[self._curr_index]['name'])
 	
@@ -101,5 +114,6 @@ class PPModule(object):
 	
 	
 	def start(self):
+		print("Starting PPModule...")
 		self.find_ppmodules()
 		self.update_disp()
