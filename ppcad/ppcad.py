@@ -63,7 +63,7 @@ class ppcad:
 			if pcmd[:8] == "__init__":
 				continue
 			# Add to _cmds
-			self._cmds += {}
+			self._cmds += {'name': '', 'compiled': None}
 			# Check if it's a .py or .pyc'
 			if pcmd[-1:] == 'c':
 				self._cmds[i]['compiled'] = True
