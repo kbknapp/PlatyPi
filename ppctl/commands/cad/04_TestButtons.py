@@ -26,8 +26,8 @@ cad = pifacecad.PiFaceCAD()
 cad.lcd.write("You pressed: ")
 global __listner
 __listener = pifacecad.SwitchEventListener(chip=cad)
-for i in range(7):
+for i in range(4):
 	__listener.register(i, pifacecad.IODIR_FALLING_EDGE, update_pin_text)
-__listener.register(8, pifacecad.IODIR_FALLING_EDGE, quit_test)
+__listener.register(5, pifacecad.IODIR_FALLING_EDGE, quit_test)
 cad.lcd.blink_off()
 __listener.activate()
