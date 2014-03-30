@@ -3,7 +3,7 @@
 #
 # Python 3.x
 #
-# PPModuleBase.py
+# PPModule.py
 #
 # Provides a base class for all platypi modules
 #
@@ -12,14 +12,19 @@ from threading import Barrier
 import os
 import inspect
 
-class PPModuleBase(object):
-	def __init__(self, cad, pmod_dir, exit_barrier):
-		self._ppmodules = []
-		self._curr_index = 0
+class PPModule(object):
+	_ppmodules = []			# A list of modules to display to the user
+	_curr_index = 0			# The currently displayed module
+	_cad = None				# The PiFaceCAD
+	_exit_barrier = None	# The Exit Barrier
+	_search_dir = '.'		# Where to search for platypi modules
+	_title = ''
+	_first = True
+	
+	def __init__(self, cad, title='Home Module v0.1', exit_barrier):
 		self._cad = cad
-		self._self_dir = os.path.basename(os.path.realpath(__file__))
-		self._pmod_dir = pmod_dir
 		self._exit_barrier = exit_barrier
+		self._title = title
 	
 	
 	def previous_cmd(self, event=None):
@@ -55,34 +60,36 @@ class PPModuleBase(object):
 				return cls
 	
 	def find_ppmodules(self):
-		# Get all files in the 'commands' directory as possible modules
-		full_pmod_dir = os.path.join(self._self_dir, self._pmod_dir)
-		pmods = os.listdir(full_pmod_dir)
-		# Loop over them all, adding them to the _ppmodules list as sets
-		i = 0
-		for pmod in pmods:
-			# Check if the file is __init__.py or __init__.pyc to skip
-			# Also check for directories...skip those too
-			if pmod[:8] == "__init__" or os.path.isdir(os.path.join(full_pmod_dir, pmod)):
-				continue
-			# Add to _ppmodules
-			self._ppmodules.append({'name': '', 'compiled': False})
-			# Check if it's a .py or .pyc'
-			pmod_split = os.path.splitext(pmod)
-			if pmod_split[1] == '.pyc':
-				self._ppmodules[i]['compiled'] = True
-				self._ppmodules[i]['name'] = pmod_split[0]
-			else:
-				self._ppmodules[i]['compiled'] = False
-				self._ppmodules[i]['name'] = pmod_split[0]
-			i += 1
+		# PPModules are files, but folders are displayed to the user to
+		# the interface clean and navigationally organized
+		for root, dirs, files in os.walk(self._search_dir):
+			# Add all the directories
+			for dir_name in dirs:
+				if dir_name.starts_with('__'):
+					continue
+				self._ppmodules.append({'name': dir_name, 'compiled': False, 'type': 'directory'})
+			for file_name in files:
+				# First check to make sure we're not adding ourself, or any __init__.py files
+				if file_name.starts_with('__') or os.path.basename(__file__) == file_name:
+					continue
+				if os.path.splitext(file_name)[1] == '.pyc':
+					self._ppmodules.append({'name': file_name, 'compiled': True, 'type': 's'})
+				else:
+					self._ppmodules.append({'name': file_name, 'compiled': False, 'type': 's'})
+			break		# Only doing one iteration (current dir only)
+	
 	
 	
 	def update_disp(self):
 		# Clear bottom row and reset cursor to bottom row
-		self._cad.lcd.set_cursor(0,1)
-		self._cad.lcd.write(' '*16)
-		self._cad.lcd.set_cursor(0,1)
+		if(self._first):
+			self._cad.lcd.home()
+			self._cad.lcd.write("%s\n%s" % (self._title, ' '*16))
+			self._first = False
+		else:
+			self._cad.lcd.set_cursor(0, 1)
+			self._cad.lcd.write(' '*16)
+			self._cad.lcd.set_cursor(0, 1)
 		
 		# write the current ppmodule name on the display
 		self._cad.lcd.write(self._ppmodules[self._curr_index]['name'])

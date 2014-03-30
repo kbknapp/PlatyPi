@@ -12,13 +12,9 @@
 import pifacecad
 from threading import Barrier
 from time import sleep
-import inspect
+from ppmodules import PPModule
 
 _TITLE = "PlatyPi v0.1"
-_PMOD_DIR = "ppmodules"
-
-_TO_START = 'PPHome'
-_PPMOD = 'PPModuleBase'
 
 if __name__ == "__main__":
 	# Set up CAD
@@ -33,12 +29,8 @@ if __name__ == "__main__":
 	global exit_barrier
 	exit_barrier = Barrier(2)
 	
-	# import pphome.py
-	module = __import__('ppcad.ppmodules.%s' % _TO_START)
-	for cls in dir(module):
-		cls = getattr(module, cls)
-		if (inspect.isclass(cls) and inspect.getmodule(cls) == module and issubclass(cls,_PPMOD)):
-			cls(cad, 'toplevel', exit_barrier).start()
+	ppm = PPModule(cad, _TITLE, exit_barrier)
+	ppm.start()
 	
 	exit_barrier.wait()		# Wait for exit
 	
