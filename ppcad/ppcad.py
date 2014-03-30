@@ -31,7 +31,7 @@ class ppcad:
 		self._cmd_dir = cmd_dir
 		self.update_disp()
 	
-	def previous_cmd(self):
+	def previous_cmd(self, event=None):
 		if len(self._cmds) > 0:
 			if self._curr_index == 0:
 				self._curr_index = len(self._cmds)
@@ -40,7 +40,7 @@ class ppcad:
 			self.update_disp()
 	
 	
-	def next_cmd(self):
+	def next_cmd(self, event=None):
 		if len(self._cmds) > 0:
 			if self._curr_index == len(self._cmds):
 				self._curr_index = 0
@@ -49,7 +49,7 @@ class ppcad:
 			self.update_disp()
 	
 	
-	def run_cmd(self):
+	def run_cmd(self, event=None):
 		pass
 	
 	
@@ -73,8 +73,8 @@ class ppcad:
 				self._cmds[i]['name'] = pcmd[:-2]
 			i += 1
 	
-	
 	def update_disp(self):
+		self._cad.lcd.home()
 		if len(self._cmds) > 0:
 			self._cad.lcd.write("%s\n%s" % (self._title, self._cmds[self._curr_index]['name']))
 		else:
