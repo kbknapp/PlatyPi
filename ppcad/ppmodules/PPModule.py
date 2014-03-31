@@ -68,6 +68,7 @@ class PPModule(object):
 				print("Back called...")
 				self._search_dir.popleft()
 				self._ppmodules.popleft()
+				self._curr_index = 0
 			elif curr_dict['name'] == "Quit":
 				print("Quit called...")
 				self.close()
