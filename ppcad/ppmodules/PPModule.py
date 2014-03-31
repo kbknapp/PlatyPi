@@ -55,18 +55,24 @@ class PPModule(object):
 	
 	
 	def run_cmd(self, event=None):
+		print("Running command...")
 		curr_dict = self._ppmodules[0][self._curr_index]
 		if curr_dict['type'] == 'directory':
+			print("It was a dictionary")
 			self._search_dir.appendleft(os.path.join(self._search_dir[0], curr_dict['name']))
 			self.find_ppmodules()
 			self._ppmodules[0].append({'name': "Back", 'compiled': False, 'type': 'function'})
 		elif curr_dict['type'] == 'function':
+			print("It was a function...")
 			if curr_dict['name'] == "Back":
+				print("Back called...")
 				self._search_dir.popleft()
 				self._ppmodules.popleft()
 			elif curr_dict['name'] == "Quit":
+				print("Quit called...")
 				self.close()
 		else:
+			print("It was a script...")
 			pass
 		self.update_disp()
 	
