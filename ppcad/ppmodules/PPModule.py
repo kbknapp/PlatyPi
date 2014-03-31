@@ -25,6 +25,7 @@ class PPModule(object):
 	_ROCKER_PUSH = 5
 	_ROCKER_RIGHT = 7
 	_ROCKER_LEFT = 6
+	_quit_barrier = None
 	
 	def __init__(self, cad, title, exit_barrier):
 		print("Making PPModule...")
@@ -136,7 +137,8 @@ class PPModule(object):
 	
 	
 	def close(self):
-		#self._listener.deactivate()
+		self._quit_barrier.wait()
+		self._listener.deactivate()
 		self._exit_barrier.wait()
 	
 	
@@ -149,3 +151,6 @@ class PPModule(object):
 		self._listener.register(self._ROCKER_LEFT, pifacecad.IODIR_ON, self.previous_cmd)
 		self._listener.register(self._ROCKER_RIGHT, pifacecad.IODIR_ON, self.next_cmd)
 		self._listener.activate()
+		
+		self._quit_barrier = Barrier(2)
+		self._quit_barrier.wait()
