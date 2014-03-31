@@ -89,7 +89,7 @@ class PPModule(object):
 		# PPModules are files, but folders are displayed to the user to
 		# the interface clean and navigationally organized
 		self._ppmodules.appendleft([])
-		for root, dirs, files in os.walk(self._search_dir):
+		for root, dirs, files in os.walk(self._search_dir[0]):
 			# Add all the directories
 			for dir_name in dirs:
 				print("Looking through directories of %s" % root)
