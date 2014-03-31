@@ -138,8 +138,6 @@ class PPModule(object):
 	
 	def close(self):
 		self._quit_barrier.wait()
-		self._listener.deactivate()
-		self._exit_barrier.wait()
 	
 	
 	def start(self):
@@ -154,3 +152,6 @@ class PPModule(object):
 		
 		self._quit_barrier = Barrier(2)
 		self._quit_barrier.wait()
+		
+		self._listener.deactivate()
+		self._exit_barrier.wait()
