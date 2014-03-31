@@ -131,7 +131,7 @@ class PPModule(object):
 		self._cad.lcd.set_cursor(0, 1)
 		print("Writing a module name %s" % (self._ppmodules[self._curr_index]['name']))
 		# write the current ppmodule name on the display
-		self._cad.lcd.write(self._ppmodules[self._curr_index]['name'])
+		self._cad.lcd.write(self._ppmodules[0][self._curr_index]['name'])
 	
 	
 	def close(self):
