@@ -12,6 +12,7 @@ from threading import Barrier
 import os
 import inspect
 from collections import deque
+from time import sleep
 
 class PPModule(object):
 	_ppmodules = deque()			# A list of modules to display to the user
@@ -72,7 +73,12 @@ class PPModule(object):
 				self._curr_index = 0
 			elif curr_dict['name'] == "Quit":
 				print("Quit called...")
-				return self.close()
+				self._cad.lcd.clear()
+				self._cad.lcd.home()
+				self._cad.lcd.write('Exiting...')
+				sleep(2)
+				self._cad.lcd.clear()
+				exit
 		else:
 			print("It was a script...")
 			pass
