@@ -72,7 +72,7 @@ class PPModule(object):
 				self._curr_index = 0
 			elif curr_dict['name'] == "Quit":
 				print("Quit called...")
-				self.close()
+				return self.close()
 		else:
 			print("It was a script...")
 			pass
