@@ -39,15 +39,15 @@ class PPModule(object):
 	def previous_cmd(self, event=None):
 		if len(self._ppmodules[0]) > 0:
 			if self._curr_index == 0:
-				self._curr_index = (len(self._ppmodules)-1)
+				self._curr_index = (len(self._ppmodules[0])-1)
 			else:
 				self._curr_index -= 1
 			self.update_disp()
 	
 	
 	def next_cmd(self, event=None):
-		if len(self._ppmodules) > 0:
-			if self._curr_index == (len(self._ppmodules)-1):
+		if len(self._ppmodules[0]) > 0:
+			if self._curr_index == (len(self._ppmodules[0])-1):
 				self._curr_index = 0
 			else:
 				self._curr_index += 1
