@@ -136,7 +136,7 @@ class PPModule(object):
 	
 	
 	def close(self):
-		self._listener.deactivate()
+		#self._listener.deactivate()
 		self._exit_barrier.wait()
 	
 	
