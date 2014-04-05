@@ -18,7 +18,6 @@ class PPModule(object):
 	_ppmodules = deque()			# A list of modules to display to the user
 	_curr_index = 0			# The currently displayed module
 	_cad = None				# The PiFaceCAD
-	_exit_barrier = None	# The Exit Barrier
 	_search_dir = deque()
 	_title = 'Home Module v0.1'
 	_first = True
@@ -28,10 +27,9 @@ class PPModule(object):
 	_ROCKER_LEFT = 6
 	_quit_barrier = None
 	
-	def __init__(self, cad, title, exit_barrier):
+	def __init__(self, cad, title):
 		print("Making PPModule...")
 		self._cad = cad
-		self._exit_barrier = exit_barrier
 		if title != '':
 			self._title = title
 		self._listener = pifacecad.SwitchEventListener(chip=cad)
@@ -144,7 +142,6 @@ class PPModule(object):
 	
 	def close(self):
 		self._quit_barrier.wait()
-		self._exit_barrier.wait()
 	
 	
 	def start(self):
