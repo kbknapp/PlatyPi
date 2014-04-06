@@ -70,7 +70,7 @@ CLEAR_DISPLAY_DELAY = 3000 / float(1000000)
 MAX_CUSTOM_BITMAPS = 8
 
 
-class HD44780DataPort(pifacecommon.mcp23s17.MCP23S17RegisterNibble):
+class HD44780DataPort(mcp23s17.MCP23S17RegisterNibble):
     """Data Port for an HD44780 LCD display. Must have the following
     properties:
 
@@ -79,12 +79,12 @@ class HD44780DataPort(pifacecommon.mcp23s17.MCP23S17RegisterNibble):
     """
     def __init__(self, chip):
         super(HD44780DataPort, self).__init__(
-            pifacecommon.mcp23s17.LOWER_NIBBLE,
-            pifacecommon.mcp23s17.GPIOB,
+            mcp23s17.LOWER_NIBBLE,
+            mcp23s17.GPIOB,
             chip)
 
 
-class HD44780ControlPort(pifacecommon.mcp23s17.MCP23S17Register):
+class HD44780ControlPort(mcp23s17.MCP23S17Register):
     """Control Port for an HD44780 LCD display. Must have the following
     properties:
 
@@ -96,7 +96,7 @@ class HD44780ControlPort(pifacecommon.mcp23s17.MCP23S17Register):
     """
     def __init__(self, chip):
         super(HD44780ControlPort, self).__init__(
-            pifacecommon.mcp23s17.GPIOB, chip)
+            mcp23s17.GPIOB, chip)
 
     @property
     def backlight_pin(self):
