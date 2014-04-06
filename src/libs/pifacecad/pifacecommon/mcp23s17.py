@@ -5,7 +5,7 @@ from .core import (
     get_bit_num,
 )
 from .spi import SPIDevice
-import pifacecommon.interrupts
+import interrupts
 
 
 # Python 2 support
