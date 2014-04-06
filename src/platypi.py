@@ -9,7 +9,7 @@
 #
 # Controls the PlatyPiCAD
 #
-from libs.pifacecad import pifacecad
+import pifacecad
 from time import sleep
 from ppmodules import PPModule
 
@@ -24,7 +24,7 @@ if __name__ == "__main__":
 	cad.lcd.clear()
 	cad.lcd.write(_TITLE)
 	
-	ppm = PPModule(cad, _TITLE, exit_barrier)
+	ppm = PPModule(cad, _TITLE)
 	ppm.start()
 	
 	
