@@ -1,7 +1,7 @@
 import threading
 import multiprocessing
 import multiprocessing.queues
-from . import lirc
+import lirc
 from .pifacecommon import interrupts
 
 
