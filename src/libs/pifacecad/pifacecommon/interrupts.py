@@ -4,7 +4,7 @@ import select
 import time
 import errno
 from .core import get_bit_num
-import pifacecommon.mcp23s17
+import mcp23s17
 
 
 # interrupts
