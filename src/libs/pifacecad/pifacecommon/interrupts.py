@@ -4,7 +4,7 @@ import select
 import time
 import errno
 from .core import get_bit_num
-from .mcp23s17 import mcp23s17
+from .mcp23s17 import *
 
 
 # interrupts
