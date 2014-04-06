@@ -286,7 +286,7 @@ def watch_port_events(port, chip, pin_function_maps, event_queue,
                 raise
 
         # find out where the interrupt came from and put it on the event queue
-        if port == pifacecommon.mcp23s17.GPIOA:
+        if port == mcp23s17.GPIOA:
             interrupt_flag = chip.intfa.value
         else:
             interrupt_flag = chip.intfb.value
@@ -294,7 +294,7 @@ def watch_port_events(port, chip, pin_function_maps, event_queue,
         if interrupt_flag == 0:
             continue  # The interrupt has not been flagged on this board
         else:
-            if port == pifacecommon.mcp23s17.GPIOA:
+            if port == mcp23s17.GPIOA:
                 interrupt_capture = chip.intcapa.value
             else:
                 interrupt_capture = chip.intcapb.value
