@@ -1,5 +1,5 @@
-from .pifacececommon.mcp23s17 import mcp23s17
-from .pifacecommon.interrupts import interrupts
+from pifacecad.pifacececommon.mcp23s17 import mcp23s17
+from piracecad.pifacecommon.interrupts import interrupts
 import pifacecad.lcd
 
 
