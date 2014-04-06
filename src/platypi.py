@@ -9,7 +9,7 @@
 #
 # Controls the PlatyPiCAD
 #
-from pifacecad
+import pifacecad
 from time import sleep
 from ppmodules import PPModule
 
