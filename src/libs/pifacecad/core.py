@@ -1,4 +1,4 @@
-from .pifacececommon import mcp23s17
+from .pifacecommon import mcp23s17
 from .pifacecommon import interrupts
 from . import lcd
 
