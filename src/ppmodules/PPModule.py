@@ -148,13 +148,15 @@ class PPModule(object):
 		print("Starting PPModule...")
 		self.find_ppmodules()
 		self.update_disp()
+		
+		self._quit_barrier = Barrier(2)
+		
 		print("Registering listner...")
 		self._listener.register(self._ROCKER_PUSH, pifacecad.IODIR_ON, self.run_cmd)
 		self._listener.register(self._ROCKER_LEFT, pifacecad.IODIR_ON, self.previous_cmd)
 		self._listener.register(self._ROCKER_RIGHT, pifacecad.IODIR_ON, self.next_cmd)
 		self._listener.activate()
 		
-		self._quit_barrier = Barrier(2)
 		self._quit_barrier.wait()
 		
 		self._listener.deactivate()

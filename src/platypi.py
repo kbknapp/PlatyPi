@@ -7,7 +7,7 @@
 # v0.1
 #	*
 #
-# Controls the PlatyPiCAD
+# Controls the PlatyPi
 #
 import pifacecad
 from time import sleep
