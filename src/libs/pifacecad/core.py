@@ -12,14 +12,14 @@ class NoPiFaceCADDetectedError(Exception):
     pass
 
 
-class PiFaceCAD(pifacecommon.mcp23s17.MCP23S17,
-                pifacecommon.interrupts.GPIOInterruptDevice):
+class PiFaceCAD(mcp23s17.MCP23S17,
+                interrupts.GPIOInterruptDevice):
     """A PiFace Control and Display board.
 
     :attribute: switch_port -- See
-        :class:`pifacecommon.mcp23s17.MCP23S17RegisterNeg`.
+        :class:`mcp23s17.MCP23S17RegisterNeg`.
     :attribute: switches --
-        list containing :class:`pifacecommon.mcp23s17.MCP23S17RegisterBitNeg`.
+        list containing :class:`mcp23s17.MCP23S17RegisterBitNeg`.
     :attribute: lcd -- See :class:`pifacecad.lcd.PiFaceLCD`.
 
     Example:
@@ -39,11 +39,11 @@ class PiFaceCAD(pifacecommon.mcp23s17.MCP23S17,
                  init_board=True):
         super(PiFaceCAD, self).__init__(hardware_addr, bus, chip_select)
 
-        self.switch_port = pifacecommon.mcp23s17.MCP23S17RegisterNeg(
-            pifacecommon.mcp23s17.GPIOA, self)
+        self.switch_port = mcp23s17.MCP23S17RegisterNeg(
+            mcp23s17.GPIOA, self)
 
-        self.switches = [pifacecommon.mcp23s17.MCP23S17RegisterBitNeg(
-            i, pifacecommon.mcp23s17.GPIOA, self)
+        self.switches = [mcp23s17.MCP23S17RegisterBitNeg(
+            i, mcp23s17.GPIOA, self)
             for i in range(NUM_SWITCHES)]
 
         if init_board:
@@ -64,13 +64,13 @@ class PiFaceCAD(pifacecommon.mcp23s17.MCP23S17,
 
     def init_board(self):
         ioconfig = (
-            pifacecommon.mcp23s17.BANK_OFF |
-            pifacecommon.mcp23s17.INT_MIRROR_OFF |
-            pifacecommon.mcp23s17.SEQOP_ON |
-            pifacecommon.mcp23s17.DISSLW_OFF |
-            pifacecommon.mcp23s17.HAEN_ON |
-            pifacecommon.mcp23s17.ODR_OFF |
-            pifacecommon.mcp23s17.INTPOL_LOW
+            mcp23s17.BANK_OFF |
+            mcp23s17.INT_MIRROR_OFF |
+            mcp23s17.SEQOP_ON |
+            mcp23s17.DISSLW_OFF |
+            mcp23s17.HAEN_ON |
+            mcp23s17.ODR_OFF |
+            mcp23s17.INTPOL_LOW
         )
         self.iocon.value = ioconfig
         if self.iocon.value != ioconfig:
@@ -87,7 +87,7 @@ class PiFaceCAD(pifacecommon.mcp23s17.MCP23S17,
             self.enable_interrupts()
 
 
-class SwitchEventListener(pifacecommon.interrupts.PortEventListener):
+class SwitchEventListener(interrupts.PortEventListener):
     """Listens for events on the switches and calls the mapped callback
     functions.
 
@@ -102,4 +102,4 @@ class SwitchEventListener(pifacecommon.interrupts.PortEventListener):
         if chip is None:
             chip = PiFaceCAD()
         super(SwitchEventListener, self).__init__(
-            pifacecommon.mcp23s17.GPIOA, chip)
+            mcp23s17.GPIOA, chip)
