@@ -2,7 +2,7 @@
 #
 # Python 3.x
 #
-# ppcad.py
+# platypi.py
 #
 # v0.1
 #	*
