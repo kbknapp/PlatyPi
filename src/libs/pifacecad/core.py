@@ -1,6 +1,6 @@
-from pifacecad.pifacececommon.mcp23s17 import mcp23s17
-from piracecad.pifacecommon.interrupts import interrupts
-import pifacecad.lcd
+from .pifacececommon import mcp23s17
+from .pifacecommon import interrupts
+from . import lcd
 
 
 DEFAULT_SPI_BUS = 0
