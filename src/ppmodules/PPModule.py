@@ -120,7 +120,6 @@ class PPModule(object):
 			break		# Only doing one iteration (current dir only)
 	
 	
-	
 	def update_disp(self):
 		print("Updating the display...")
 		# Clear bottom row and reset cursor to bottom row
@@ -132,6 +131,7 @@ class PPModule(object):
 		else:
 			print("Not the first time, clearing only the second row...")
 			self._cad.lcd.set_cursor(0, 1)
+			print("Erasing second row...")
 			self._cad.lcd.write(' '*16)
 		
 		self._cad.lcd.set_cursor(0, 1)
