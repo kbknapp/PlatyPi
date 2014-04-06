@@ -1,8 +1,8 @@
 import threading
 import multiprocessing
 import multiprocessing.queues
-import lirc
-import pifacecommon.interrupts
+from . import lirc
+from .pifacecommon import interrupts
 
 
 class IREvent(object):

@@ -1,6 +1,6 @@
 import math
 import time
-import pifacecommon.mcp23s17
+from .pifacecommon import mcp23s17
 
 
 # mcp23s17 GPIOB to HD44780 pin map
