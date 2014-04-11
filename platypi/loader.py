@@ -3,21 +3,35 @@
 #
 # Python 3.x
 #
-# PPModule.py
+# DynaModule.py
 #
-# Provides a base class for all platypi modules
+# Takes a directory and finds / dynamically laods all python modules
+# Example:
+#	base_dir:
+#		some_mod.py
+#		some_dir
+#			some_mod2.py
+#		some_other_dir
+#			some_mod3.py
+#			some_mod4.py
+#			some_other_other_dir
+#				some_mod5.py
 #
-import pifacecad
-from threading import Barrier
+#	This would load a deque with four (4) sets (one for each folder)
+#		The sets would contain a list of child items
+#			Each child item would be a dict with three items
+#				file_name: str
+#				file_ext: str
+#				type: str
+#
+
 import os
 import inspect
-from collections import deque
-from time import sleep
 
-class PPModule(object):
-	_ppmodules = deque()			# A list of modules to display to the user
-	_curr_index = 0			# The currently displayed module
-	_cad = None				# The PiFaceCAD
+class DynaModule(object):
+	_modules = deque()		# A list of modules to display to the user
+	_curr_index = 0				# The currently displayed module
+	_cad = None					# The PiFaceCAD
 	_search_dir = deque()
 	_title = 'Home Module v0.1'
 	_first = True
