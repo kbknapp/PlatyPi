@@ -82,7 +82,7 @@ def main():
 
 def next_option(event=None):
     print('Going to next option')
-    update_display(next(__options))
+    update_display(os.path.basename(next(__options)))
 
 
 def previous_option(event=None):
