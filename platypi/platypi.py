@@ -105,13 +105,16 @@ def make_options(dirs, cmds):
 
 def update_display(line):
     print('Updating display')
-    lcd = __cad.lcd
-    lcd.home()
-    lcd.set_cursor(0, 1)
-    lcd.write(' ' * pifacecad.lcd.LCD_WIDTH)
-    lcd.set_cursor(0, 1)
-    print('Writing {}'.format(line))
-    lcd.write(line)
+    try:
+        lcd = __cad.lcd
+        lcd.home()
+        lcd.set_cursor(0, 1)
+        lcd.write(' ' * pifacecad.lcd.LCD_WIDTH)
+        lcd.set_cursor(0, 1)
+        print('Writing {}'.format(line))
+        lcd.write(line)
+    except OSError:
+        pass
 
 
 def close():
