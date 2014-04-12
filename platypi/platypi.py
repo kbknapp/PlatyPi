@@ -30,6 +30,7 @@ ROCKER_LEFT = 6
 ROCKER_PUSH = 5
 
 __cad = None
+__listener = None
 __options = None
 __dirs = []
 __commands = []
@@ -39,12 +40,7 @@ def main():
     """Entry point for the platypi system
     Return: Status (0 or 1)
     """
-    print('Creating CAD')
-    global __cad
-    __cad = pifacecad.PiFaceCAD()
-    __cad.lcd.blink_off()
-    __cad.lcd.cursor_off()
-    __cad.lcd.write('PlatyPi v{}'.format(VERSION))
+    init_cad()
 
     global __dirs
     global __commands
@@ -59,11 +55,7 @@ def main():
     global __exit_barrier
     __exit_barrier = Barrier(2)
 
-    listener = pifacecad.SwitchEventListener(chip=__cad)
-    listener.register(ROCKER_RIGHT, pifacecad.IODIR_ON, next_option)
-    listener.register(ROCKER_LEFT, pifacecad.IODIR_ON, previous_option)
-    listener.register(ROCKER_PUSH, pifacecad.IODIR_ON, do_option)
-    listener.activate()
+    register_buttons()
 
     print('Calling first option')
     next_option()
@@ -79,12 +71,29 @@ def main():
     return 0
 
 
+def init_cad():
+    print('Creating CAD')
+    global __cad
+    __cad = pifacecad.PiFaceCAD()
+    __cad.lcd.blink_off()
+    __cad.lcd.cursor_off()
+    __cad.lcd.write('PlatyPi v{}'.format(VERSION))
+
+
+def register_buttons():
+    global __listener
+    __listener = pifacecad.SwitchEventListener(chip=__cad)
+    __listener.register(ROCKER_RIGHT, pifacecad.IODIR_ON, next_option)
+    __listener.register(ROCKER_LEFT, pifacecad.IODIR_ON, previous_option)
+    __listener.register(ROCKER_PUSH, pifacecad.IODIR_ON, do_option)
+    __listener.activate()
+
+
 def next_option(event=None):
     print('Going to next option')
     global __index
     if __index == len(__options):
         __index = 0
-    print('Updating to index {} which is {}'.format(__index, os.path.basename(__options[__index])))
     update_display(os.path.basename(__options[__index]))
     __index += 1
 
@@ -94,7 +103,6 @@ def previous_option(event=None):
     global __index
     if __index == 0:
         __index = len(__options) - 1
-    print('Updating to index {} which is {}'.format(__index, os.path.basename(__options[__index])))
     update_display(os.path.basename(__options[__index]))
     __index -= 1
 
@@ -119,7 +127,9 @@ def update_display(line):
         print('Writing {}'.format(line))
         lcd.write(line)
     except OSError:
-        pass
+        __cad.lcd.clear()
+        init_cad()
+        update_disp(line)
 
 
 def close():
