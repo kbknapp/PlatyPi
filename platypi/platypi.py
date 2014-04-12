@@ -129,6 +129,7 @@ def update_display(line):
     except OSError:
         __cad.lcd.clear()
         init_cad()
+        register_buttons()
         update_disp(line)
 
 
