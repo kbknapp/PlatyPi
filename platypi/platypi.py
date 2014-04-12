@@ -90,7 +90,7 @@ def previous_option(event=None):
     print('{} items to skip'.format(to_advance))
     i = 0
     while i <  to_advance:
-        next(__options)
+        print('Skipping {}'.format(next(__options)))
     update_display(os.path.basename(next(__options)))
 
 
