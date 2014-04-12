@@ -93,7 +93,7 @@ def make_options(dirs, cmds):
 def update_display(line):
     lcd = __cad.lcd
     lcd.set_cursor(0, 1)
-    lcd.write(' ' * pifacecad.LCD_WIDTH)
+    lcd.write(' ' * pifacecad.lcd.LCD_WIDTH)
     lcd.set_cursor(0, 1)
     lcd.write(line)
 
