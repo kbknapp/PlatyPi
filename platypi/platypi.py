@@ -56,20 +56,20 @@ def main():
     global __options
     __options = make_options(__dirs, __commands)
 
-    #global __exit_barrier
-    #__exit_barrier = Barrier(2)
+    global __exit_barrier
+    __exit_barrier = Barrier(2)
 
     listener = pifacecad.SwitchEventListener(chip=__cad)
     listener.register(ROCKER_RIGHT, pifacecad.IODIR_ON, next_option)
-    listener.register(ROCKER_LEFT, pifacecad.IODIR_ON,previous_option)
-    listener.register(ROCKER_PUSH, pifacecad.IODIR_ON,do_option)
+    listener.register(ROCKER_LEFT, pifacecad.IODIR_ON, previous_option)
+    listener.register(ROCKER_PUSH, pifacecad.IODIR_ON, do_option)
     listener.activate()
 
     print('Calling first option')
     next_option()
 
     print('Calling first wait')
-    #__exit_barrier.wait()
+    __exit_barrier.wait()
 
     print('Closing')
     close()
