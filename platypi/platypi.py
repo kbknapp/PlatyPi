@@ -49,6 +49,7 @@ class PlatyPi(object):
                                     os.path.dirname(os.path.realpath(__file__)),
                                     PPMOD_DIR))
         self.__options = self.make_options(self.__dirs, self.__commands)
+        self.next_option()
 
     def next_option(self, event=None):
         print('Going to next option')
