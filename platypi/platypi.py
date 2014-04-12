@@ -90,7 +90,7 @@ def previous_option(event=None):
     print('{} items to skip'.format(to_advance))
     update_display(
         os.path.basename(
-            next(itertools.islice(__options, to_advance, to_advance), None)))
+            next(itertools.islice(__options, to_advance, to_advance))))
 
 
 def do_option(event=None):
