@@ -56,10 +56,9 @@ def main():
     global __options
     __options = make_options(__dirs, __commands)
 
-    global __exit_barrier
-    __exit_barrier = Barrier(2)
+    #global __exit_barrier
+    #__exit_barrier = Barrier(2)
 
-    print('Registering buttons {} {} {}'.format(ROCKER_RIGHT, ROCKER_LEFT, ROCKER_PUSH))
     listener = pifacecad.SwitchEventListener(chip=__cad)
     listener.register(ROCKER_RIGHT, pifacecad.IODIR_ON, next_option)
     listener.register(ROCKER_LEFT, pifacecad.IODIR_ON,previous_option)
@@ -70,7 +69,7 @@ def main():
     next_option()
 
     print('Calling first wait')
-    __exit_barrier.wait()
+    #__exit_barrier.wait()
 
     print('Closing')
     close()
@@ -88,6 +87,7 @@ def next_option(event=None):
 def previous_option(event=None):
     print('Going to previous option')
     to_advance = (len(__dirs) + len(__commands)) - 2
+    print('{} items to skip'.format(to_advance))
     update_display(
         os.path.basename(
             next(itertools.islice(__options, to_advance, to_advance),
