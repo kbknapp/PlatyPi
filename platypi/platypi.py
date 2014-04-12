@@ -16,7 +16,7 @@ try:
 except ImportError:
     print("'pifacecad'' module not installed, using console exclusivly.")
 
-from . import loader
+import loader
 
 PY3 = sys.version_info[0] >= 3
 if not PY3:
