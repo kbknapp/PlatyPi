@@ -111,16 +111,16 @@ if __name__ == '__main__':
     pp = PlatyPi(cad, PPMOD_DIR)
     pp.start()
 
-    global exit_barrier
-    exit_barrier = Barrier(2)
+    #global exit_barrier
+    #exit_barrier = Barrier(2)
 
     listener = register_buttons(cad, pp)
 
     listener.activate()
 
-    exit_barrier.wait()
+    #exit_barrier.wait()
 
-    pp.close()
-    listener.deactivate()
+    #pp.close()
+    #listener.deactivate()
 
-    sys.exit(0)
+    #sys.exit(0)
