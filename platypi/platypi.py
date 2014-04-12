@@ -73,10 +73,12 @@ def main():
 
 
 def next_option(event=None):
+    print('Going to next option')
     update_display(next(__options))
 
 
 def previous_option(event=None):
+    print('Going to previous option')
     to_advance = (len(__dirs) + len(__commands)) - 2
     update_display(next(itertools.islice(__options, to_advance, to_advance),
                         None))
@@ -87,14 +89,17 @@ def do_option(event=None):
 
 
 def make_options(dirs, cmds):
+    print('Making iterable options')
     return itertools.cycle(itertools.chain(__dirs, __commands))
 
 
 def update_display(line):
+    print('Updating display')
     lcd = __cad.lcd
     lcd.set_cursor(0, 1)
     lcd.write(' ' * pifacecad.lcd.LCD_WIDTH)
     lcd.set_cursor(0, 1)
+    print('Writing {}'.format(line))
     lcd.write(line)
 
 
