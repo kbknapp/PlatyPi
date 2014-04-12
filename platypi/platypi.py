@@ -33,7 +33,7 @@ __cad = None
 __options = None
 __dirs = []
 __commands = []
-
+__index = 0
 
 def main():
     """Entry point for the platypi system
@@ -81,16 +81,20 @@ def main():
 
 def next_option(event=None):
     print('Going to next option')
-    update_display(os.path.basename(next(__options)))
+    global __index
+    if __index == len(__options):
+        __index = 0
+    update_display(os.path.basename(__options[__index]))
+    __index += 1
 
 
 def previous_option(event=None):
     print('Going to previous option')
-    to_advance = (len(__dirs) + len(__commands)) - 2
-    print('{} items to skip'.format(to_advance))
-    for _ in range(to_advance):
-        print('Skipping {}'.format(next(__options)))
-    update_display(os.path.basename(next(__options)))
+    global __index
+    if __index == 0:
+        __index = len(__options) - 1
+    update_display(os.path.basename(__options[__index]))
+    __index -= 1
 
 
 def do_option(event=None):
@@ -99,7 +103,7 @@ def do_option(event=None):
 
 def make_options(dirs, cmds):
     print('Making iterable options')
-    return itertools.cycle(itertools.chain(__dirs, __commands))
+    return __dirs + __commands
 
 
 def update_display(line):
