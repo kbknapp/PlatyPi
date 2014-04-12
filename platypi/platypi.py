@@ -84,6 +84,7 @@ def next_option(event=None):
     global __index
     if __index == len(__options):
         __index = 0
+    print('Updating to index {} which is {}'.format(__index, os.path.basename(__options[__index])))
     update_display(os.path.basename(__options[__index]))
     __index += 1
 
@@ -93,6 +94,7 @@ def previous_option(event=None):
     global __index
     if __index == 0:
         __index = len(__options) - 1
+    print('Updating to index {} which is {}'.format(__index, os.path.basename(__options[__index])))
     update_display(os.path.basename(__options[__index]))
     __index -= 1
 
