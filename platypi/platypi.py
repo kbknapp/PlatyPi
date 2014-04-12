@@ -8,7 +8,7 @@ Controls the platypi system
 """
 import sys
 import os
-import itertools
+from time import sleep
 from threading import Barrier        # Python 3
 
 try:
@@ -29,113 +29,97 @@ ROCKER_RIGHT = 7
 ROCKER_LEFT = 6
 ROCKER_PUSH = 5
 
-__cad = None
-__listener = None
-__options = None
-__dirs = []
-__commands = []
-__index = 0
 
-def main():
-    """Entry point for the platypi system
-    Return: Status (0 or 1)
-    """
-    init_cad()
+class PlatyPi(object):
 
-    global __dirs
-    global __commands
-    print('Getting modules')
-    __dirs, __commands = loader.find_ppmodules(
-                            os.path.join(
-                                os.path.dirname(os.path.realpath(__file__)),
-                                PPMOD_DIR))
-    global __options
-    __options = make_options(__dirs, __commands)
+    def __init__(self, cad, ppmod_dir):
+        self.__cad = cad
+        self.__options = None
+        self.__dirs = []
+        self.__commands = []
+        self.__index = 0
 
-    global __exit_barrier
-    __exit_barrier = Barrier(2)
+    def start(self):
+        """Entry point for the platypi system
+        Return: Status (0 or 1)
+        """
+        print('Getting modules')
+        self.__dirs, self.__commands = loader.find_ppmodules(
+                                os.path.join(
+                                    os.path.dirname(os.path.realpath(__file__)),
+                                    PPMOD_DIR))
+        self.__options = self.make_options(self.__dirs, self.__commands)
 
-    register_buttons()
+    def next_option(self, event=None):
+        print('Going to next option')
+        if self.__index == len(self.__options):
+            self.__index = 0
+        self.update_display(os.path.basename(self.__options[self.__index]))
+        self.__index += 1
 
-    print('Calling first option')
-    next_option()
+    def previous_option(self, event=None):
+        print('Going to previous option')
+        if self.__index == 0:
+            self.__index = len(self.__options) - 1
+        self.update_display(os.path.basename(self.__options[self.__index]))
+        self.__index -= 1
 
-    print('Calling first wait')
-    __exit_barrier.wait()
+    def do_option(self, event=None):
+        pass
 
-    print('Closing')
-    close()
-    print('Deactivating listener')
-    listener.deactivate()
+    def make_options(self, dirs, cmds):
+        print('Making iterable options')
+        return self.__dirs + self.__commands
 
-    return 0
-
-
-def init_cad():
-    print('Creating CAD')
-    global __cad
-    __cad = pifacecad.PiFaceCAD()
-    __cad.lcd.blink_off()
-    __cad.lcd.cursor_off()
-    __cad.lcd.write('PlatyPi v{}'.format(VERSION))
-
-
-def register_buttons():
-    global __listener
-    __listener = pifacecad.SwitchEventListener(chip=__cad)
-    __listener.register(ROCKER_RIGHT, pifacecad.IODIR_ON, next_option)
-    __listener.register(ROCKER_LEFT, pifacecad.IODIR_ON, previous_option)
-    __listener.register(ROCKER_PUSH, pifacecad.IODIR_ON, do_option)
-    __listener.activate()
-
-
-def next_option(event=None):
-    print('Going to next option')
-    global __index
-    if __index == len(__options):
-        __index = 0
-    update_display(os.path.basename(__options[__index]))
-    __index += 1
-
-
-def previous_option(event=None):
-    print('Going to previous option')
-    global __index
-    if __index == 0:
-        __index = len(__options) - 1
-    update_display(os.path.basename(__options[__index]))
-    __index -= 1
-
-
-def do_option(event=None):
-    pass
-
-
-def make_options(dirs, cmds):
-    print('Making iterable options')
-    return __dirs + __commands
-
-
-def update_display(line):
-    print('Updating display')
-    try:
-        lcd = __cad.lcd
+    def update_display(self, line):
+        print('Updating display')
+        lcd = self.__cad.lcd
         lcd.home()
         lcd.set_cursor(0, 1)
         lcd.write(' ' * pifacecad.lcd.LCD_WIDTH)
         lcd.set_cursor(0, 1)
         print('Writing {}'.format(line))
         lcd.write(line)
-    except OSError:
-        __cad.lcd.clear()
-        init_cad()
-        register_buttons()
-        update_disp(line)
+
+    def close(self):
+        self.update_display('Exiting...')
+        sleep(2)
+        self.__cad.lcd.clear()
+        self.__cad.lcd.display_off()
 
 
-def close():
-    __cad.lcd.clear()
-    __cad.lcd.disp_off()
+def register_buttons(cad, platypi):
+    listener = pifacecad.SwitchEventListener(chip=cad)
+    listener.register(ROCKER_RIGHT, pifacecad.IODIR_ON, platypi.next_option)
+    listener.register(ROCKER_LEFT, pifacecad.IODIR_ON, platypi.previous_option)
+    listener.register(ROCKER_PUSH, pifacecad.IODIR_ON, platypi.do_option)
+    return listener
+
+
+def init_cad():
+    print('Creating CAD')
+    cad = pifacecad.PiFaceCAD()
+    cad.lcd.blink_off()
+    cad.lcd.cursor_off()
+    cad.lcd.write('PlatyPi v{}'.format(VERSION))
+    return cad
+
 
 if __name__ == '__main__':
-    sys.exit(main())
+    cad = init_cad()
+    pp = PlatyPi(cad, PPMOD_DIR)
+    pp.start()
+
+    global exit_barrier
+    exit_barrier = Barrier(2)
+
+    listener = register_buttons(cad, pp)
+
+    listener.activate()
+
+    exit_barrier.wait()
+
+    pp.close()
+    listener.deactivate()
+
+    sys.exit(0)
