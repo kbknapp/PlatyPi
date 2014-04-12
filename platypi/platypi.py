@@ -47,7 +47,10 @@ def main():
 
     global __dirs
     global __commands
-    __dirs, __commands = loader.find_ppmodules(os.path.join(os.path.abspath(__file__), PPMOD_DIR))
+    __dirs, __commands = loader.find_ppmodules(
+                            os.path.join(
+                                os.path.dirname(os.path.realpath(__file__)),
+                                PPMOD_DIR))
     global __options
     __options = make_options(__dirs, __commands)
 
