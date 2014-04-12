@@ -63,6 +63,8 @@ def main():
     listener.register(pifacecad.IODIR_ON, ROCKER_PUSH, do_option)
     listener.activate()
 
+    next_option()
+
     __exit_barrier.wait()
     close()
     listener.deactivate()
