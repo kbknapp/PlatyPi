@@ -61,9 +61,9 @@ def main():
 
     print('Registering buttons {} {} {}'.format(ROCKER_RIGHT, ROCKER_LEFT, ROCKER_PUSH))
     listener = pifacecad.SwitchEventListener(chip=__cad)
-    listener.register(pifacecad.IODIR_ON, ROCKER_RIGHT, next_option)
-    listener.register(pifacecad.IODIR_ON, ROCKER_LEFT, previous_option)
-    listener.register(pifacecad.IODIR_ON, ROCKER_PUSH, do_option)
+    listener.register(ROCKER_RIGHT, pifacecad.IODIR_ON, next_option)
+    listener.register(ROCKER_LEFT, pifacecad.IODIR_ON,previous_option)
+    listener.register(ROCKER_PUSH, pifacecad.IODIR_ON,do_option)
     listener.activate()
 
     print('Calling first option')
