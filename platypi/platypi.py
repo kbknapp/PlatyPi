@@ -59,7 +59,7 @@ def main():
     global __exit_barrier
     __exit_barrier = Barrier(2)
 
-    print('Registering buttons')
+    print('Registering buttons {} {} {}'.format(ROCKER_RIGHT, ROCKER_LEFT, ROCKER_PUSH))
     listener = pifacecad.SwitchEventListener(chip=__cad)
     listener.register(pifacecad.IODIR_ON, ROCKER_RIGHT, next_option)
     listener.register(pifacecad.IODIR_ON, ROCKER_LEFT, previous_option)
