@@ -75,7 +75,7 @@ class PlatyPi(object):
     def update_display(self, line):
         print('Updating display')
         lcd = self.__cad.lcd
-        lcd.home()
+        #lcd.home()
         lcd.set_cursor(0, 1)
         lcd.write(' ' * pifacecad.lcd.LCD_WIDTH)
         lcd.set_cursor(0, 1)
