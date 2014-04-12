@@ -39,6 +39,7 @@ def main():
     """Entry point for the platypi system
     Return: Status (0 or 1)
     """
+    print('Creating CAD')
     global __cad
     __cad = pifacecad.PiFaceCAD()
     __cad.lcd.blink_off()
@@ -47,6 +48,7 @@ def main():
 
     global __dirs
     global __commands
+    print('Getting modules')
     __dirs, __commands = loader.find_ppmodules(
                             os.path.join(
                                 os.path.dirname(os.path.realpath(__file__)),
@@ -57,16 +59,22 @@ def main():
     global __exit_barrier
     __exit_barrier = Barrier(2)
 
+    print('Registering buttons')
     listener = pifacecad.SwitchEventListener(chip=__cad)
     listener.register(pifacecad.IODIR_ON, ROCKER_RIGHT, next_option)
     listener.register(pifacecad.IODIR_ON, ROCKER_LEFT, previous_option)
     listener.register(pifacecad.IODIR_ON, ROCKER_PUSH, do_option)
     listener.activate()
 
+    print('Calling first option')
     next_option()
 
+    print('Calling first wait')
     __exit_barrier.wait()
+
+    print('Closing')
     close()
+    print('Deactivating listener')
     listener.deactivate()
 
     return 0
