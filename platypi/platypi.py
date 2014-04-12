@@ -88,8 +88,7 @@ def previous_option(event=None):
     print('Going to previous option')
     to_advance = (len(__dirs) + len(__commands)) - 2
     print('{} items to skip'.format(to_advance))
-    i = 0
-    while i <  to_advance:
+    for _ in range(to_advance):
         print('Skipping {}'.format(next(__options)))
     update_display(os.path.basename(next(__options)))
 
