@@ -53,7 +53,7 @@ class PlatyPi(object):
                                 os.path.join(self.__pp_dir, PPMOD_DIR),
                                     custom_path=self.__exit_mod)
         self.__is_root_dir = False
-        self.__options = self.make_options(self.__dirs, self.__commands)
+        self.__options.appendleft(self.make_options(self.__dirs, self.__commands))
         self.next_option()
 
     def next_option(self, event=None):
@@ -84,7 +84,7 @@ class PlatyPi(object):
                 self.__dirs, self.__commands = loader.find_ppmodules(
                                                     curr_option,
                                                     custom_path=self.__back_mod)
-            self.__options = self.make_options(self.__dirs, self.__commands)
+            self.__options.appendleft(self.make_options(self.__dirs, self.__commands))
             self.next_option()
         else:
             print('It is a module')
@@ -93,7 +93,7 @@ class PlatyPi(object):
 
     def make_options(self, dirs, cmds):
         print('Making iterable options')
-        return self.__options.appendleft(self.__dirs + self.__commands)
+        return self.__dirs + self.__commands
 
     def update_display(self, line):
         print('Updating display')
