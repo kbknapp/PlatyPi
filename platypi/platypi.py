@@ -53,7 +53,7 @@ class PlatyPi(object):
 
     def next_option(self, event=None):
         print('Going to next option')
-        if self.__index == len(self.__options):
+        if self.__index == len(self.__options) - 1:
             self.__index = 0
         self.update_display(os.path.basename(self.__options[self.__index]))
         self.__index += 1
@@ -62,7 +62,6 @@ class PlatyPi(object):
         print('Going to previous option')
         if self.__index == 0:
             self.__index = len(self.__options) - 1
-        print('Index is {}'.format(self.__index))
         self.update_display(os.path.basename(self.__options[self.__index]))
         self.__index -= 1
 
