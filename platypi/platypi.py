@@ -102,8 +102,10 @@ class PlatyPi(object):
             mod_to_run = '{}.{}'.format(self.__mod_prefix,
                                     os.path.basename(
                                         os.path.splitext(curr_option)[0]))
-            print('{} is a module'.format(mod_to_run))
-            mod = getattr(__import__(mod_to_run), mod_to_run.split('.')[-1:])
+            print('{} is a package'.format(mod_to_run))
+            mod_name = mod_to_run.split('.')[-1]
+            print('{} is the module'.format(mod_name))
+            mod = getattr(__import__(mod_to_run), mod_name)
             mod.run(cad=self.__cad)
 
     def make_options(self, dirs, cmds):
