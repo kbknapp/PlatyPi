@@ -75,7 +75,6 @@ class PlatyPi(object):
     def update_display(self, line):
         print('Updating display')
         lcd = self.__cad.lcd
-        #lcd.home()
         lcd.set_cursor(0, 1)
         lcd.write(' ' * pifacecad.lcd.LCD_WIDTH)
         lcd.set_cursor(0, 1)
@@ -111,16 +110,16 @@ if __name__ == '__main__':
     pp = PlatyPi(cad, PPMOD_DIR)
     pp.start()
 
-    #global exit_barrier
-    #exit_barrier = Barrier(2)
+    global exit_barrier
+    exit_barrier = Barrier(2)
 
     listener = register_buttons(cad, pp)
 
     listener.activate()
 
-    #exit_barrier.wait()
+    exit_barrier.wait()
 
-    #pp.close()
-    #listener.deactivate()
+    pp.close()
+    listener.deactivate()
 
-    #sys.exit(0)
+    sys.exit(0)
