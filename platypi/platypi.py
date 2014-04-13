@@ -43,7 +43,7 @@ class PlatyPi(object):
         self.__pp_dir = os.path.dirname(os.path.realpath(__file__))
         self.__exit_mod = os.path.join(self.__pp_dir, 'Exit.py')
         self.__back_mod = os.path.join(self.__pp_dir, 'Back.py')
-        self.__mod_prefix = ''
+        self.__mod_prefix = PPMOD_DIR
 
     def start(self):
         """Entry point for the platypi system
@@ -61,23 +61,24 @@ class PlatyPi(object):
         for opt in self.__options[0]:
             print('\tOption {}'.format(opt))
         # END DEBUG
+        self.__index = len(self.__options[0]) - 1
         self.next_option()
 
     def next_option(self, event=None):
         print('Going to next option')
-        self.update_display(os.path.basename(self.__options[0][self.__index]))
         if self.__index == len(self.__options[0]) - 1:
             self.__index = 0
         else:
             self.__index += 1
+        self.update_display(os.path.basename(self.__options[0][self.__index]))
 
     def previous_option(self, event=None):
         print('Going to previous option')
-        self.update_display(os.path.basename(self.__options[0][self.__index]))
         if self.__index == 0:
             self.__index = len(self.__options[0]) - 1
         else:
             self.__index -= 1
+        self.update_display(os.path.basename(self.__options[0][self.__index]))
 
     def do_option(self, event=None):
         curr_option = self.__options[0][self.__index - 1]
