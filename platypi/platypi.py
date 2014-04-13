@@ -51,7 +51,7 @@ class PlatyPi(object):
         """
         print('Getting modules')
         self.__dirs, self.__commands = loader.find_ppmodules(
-                                os.path.join(self.__pp_dir, os.path.splitext(PPMOD_DIR)[1]))
+                                os.path.join(self.__pp_dir, os.path.splitext(PPMOD_DIR)[1][1:]))
         self.__commands.append(self.__exit_mod)
         self.__is_root_dir = False
         self.__options.appendleft(self.make_options(self.__dirs,
