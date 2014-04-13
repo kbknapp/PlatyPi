@@ -11,10 +11,11 @@ import os
 def find_ppmodules(path):
     print('Finding modules from {}...'.format(path))
     for root, dirs, files in os.walk(path):
-        pp_files = [os.path.realpath(file_name)
+        print('Root: {}'.format(root))
+        pp_files = [os.path.abspath(file_name)
                     for file_name in files
                         if os.path.basename(file_name)[:2] != '__']
-        pp_dirs = [os.path.realpath(dir_name)
+        pp_dirs = [os.path.abspath(dir_name)
                     for dir_name in dirs
                         if os.path.basename(dir_name)[:2] != '__']
         break
