@@ -25,7 +25,7 @@ if not PY3:
     sys.exit(1)
 
 VERSION = 0.1
-PPMOD_DIR = 'ppmodules'
+PPMOD_DIR = 'platypi.ppmodules'
 ROCKER_RIGHT = 7
 ROCKER_LEFT = 6
 ROCKER_PUSH = 5
