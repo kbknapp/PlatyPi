@@ -108,6 +108,7 @@ class PlatyPi(object):
             print('{} is the module'.format(mod_name))
             mod = getattr(__import__(mod_to_run), mod_name)
             mod.run(cad=self.__cad)
+            print('Done running module')
 
     def make_options(self, dirs, cmds):
         print('Making iterable options')
