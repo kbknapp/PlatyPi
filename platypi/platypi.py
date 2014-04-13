@@ -56,6 +56,7 @@ class PlatyPi(object):
         self.__is_root_dir = False
         self.__options.appendleft(self.make_options(self.__dirs,
                                                     self.__commands))
+        self.__commands.append('Exit')
          # DEBUG
         print('Current options:')
         for opt in self.__options[0]:
@@ -98,6 +99,10 @@ class PlatyPi(object):
             self.__options.appendleft(self.make_options(self.__dirs,
                                                         self.__commands))
             self.next_option()
+        elif curr_option == 'Exit':
+            exit_barrier.wait()
+        elif curr_option == 'Back':
+            pass
         else:
             mod_to_run = '{}.{}'.format(self.__mod_prefix,
                                     os.path.basename(
@@ -145,12 +150,6 @@ def init_cad():
     cad.lcd.cursor_off()
     cad.lcd.write('PlatyPi v{}'.format(VERSION))
     return cad
-
-
-def close():
-    print('Close called, 2nd wait()')
-    global exit_barrier
-    exit_barrier.wait()
 
 
 if __name__ == '__main__':
