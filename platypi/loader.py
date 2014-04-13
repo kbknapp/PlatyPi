@@ -15,7 +15,7 @@ def find_ppmodules(path):
         pp_files = [os.path.abspath(file_name)
                     for file_name in files
                         if os.path.basename(file_name)[:2] != '__']
-        pp_dirs = [os.path.abspath(dir_name)
+        pp_dirs = [dir_name
                     for dir_name in dirs
                         if os.path.basename(dir_name)[:2] != '__']
         break
