@@ -99,10 +99,10 @@ class PlatyPi(object):
                                                         self.__commands))
             self.next_option()
         else:
-            print('{} is a module'.format(curr_option))
             mod_to_run = '{}.{}'.format(self.__mod_prefix,
                                     os.path.basename(
                                         os.path.splitext(curr_option)[0]))
+            print('{} is a module'.format(mod_to_run))
             mod = __import__(mod_to_run)
             mod.run(self.__cad)
 
