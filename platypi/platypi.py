@@ -43,6 +43,7 @@ class PlatyPi(object):
         self.__pp_dir = os.path.dirname(os.path.realpath(__file__))
         self.__exit_mod = os.path.join(self.__pp_dir, 'Exit.py')
         self.__back_mod = os.path.join(self.__pp_dir, 'Back.py')
+        self.__mod_prefix = ''
 
     def start(self):
         """Entry point for the platypi system
@@ -53,7 +54,8 @@ class PlatyPi(object):
                                 os.path.join(self.__pp_dir, PPMOD_DIR))
         self.__commands.append(self.__exit_mod)
         self.__is_root_dir = False
-        self.__options.appendleft(self.make_options(self.__dirs, self.__commands))
+        self.__options.appendleft(self.make_options(self.__dirs,
+                                                    self.__commands))
          # DEBUG
         print('Current options:')
         for opt in self.__options[0]:
@@ -82,17 +84,22 @@ class PlatyPi(object):
         print('Doing option {}'.format(curr_option))
         if os.path.isdir(curr_option):
             print('It is a directory')
+            self.__mod_prefix = '{}.{}'.format(
+                                    self.__mod_prefix,
+                                    os.path.splitext(os.path.basename(
+                                                        curr_option))[0])
             self.__dirs, self.__commands = loader.find_ppmodules(curr_option)
             if self.__is_root_dir:
                 self.__commands.append(self.__exit_mod)
                 self.__is_root_dir = False
             else:
                 self.__commands.append(self.__back_mod)
-            self.__options.appendleft(self.make_options(self.__dirs, self.__commands))
+            self.__options.appendleft(self.make_options(self.__dirs,
+                                                        self.__commands))
             self.next_option()
         else:
             print('It is a module')
-            mod = __import__(curr_option)
+            mod = __import__(self.__mod_prefix)
             mod.run(self.__cad)
 
     def make_options(self, dirs, cmds):
