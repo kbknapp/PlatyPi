@@ -8,6 +8,7 @@ Controls the platypi system
 """
 import sys
 import os
+from collections import deque
 from time import sleep
 from threading import Barrier        # Python 3
 
@@ -34,10 +35,14 @@ class PlatyPi(object):
 
     def __init__(self, cad, ppmod_dir):
         self.__cad = cad
-        self.__options = None
+        self.__options = deque()
         self.__dirs = []
         self.__commands = []
         self.__index = 0
+        self.__is_root_dir = True
+        self.__pp_dir = os.path.dirname(os.path.realpath(__file__))
+        self.__exit_mod = os.path.join(self.__pp_dir, 'Exit.py')
+        self.__back_mod = os.path.join(self.__pp_dir, 'Back.py')
 
     def start(self):
         """Entry point for the platypi system
@@ -45,32 +50,50 @@ class PlatyPi(object):
         """
         print('Getting modules')
         self.__dirs, self.__commands = loader.find_ppmodules(
-                                os.path.join(
-                                    os.path.dirname(os.path.realpath(__file__)),
-                                    PPMOD_DIR))
+                                os.path.join(self.__pp_dir, PPMOD_DIR),
+                                    custom_path=self.__exit_mod)
+        self.__is_root_dir = False
         self.__options = self.make_options(self.__dirs, self.__commands)
         self.next_option()
 
     def next_option(self, event=None):
         print('Going to next option')
-        if self.__index == len(self.__options) - 1:
+        if self.__index == len(self.__options[0]) - 1:
             self.__index = 0
-        self.update_display(os.path.basename(self.__options[self.__index]))
+        self.update_display(os.path.basename(self.__options[0][self.__index]))
         self.__index += 1
 
     def previous_option(self, event=None):
         print('Going to previous option')
         if self.__index == 0:
-            self.__index = len(self.__options) - 1
-        self.update_display(os.path.basename(self.__options[self.__index]))
+            self.__index = len(self.__options[0]) - 1
+        self.update_display(os.path.basename(self.__options[0][self.__index]))
         self.__index -= 1
 
     def do_option(self, event=None):
-        pass
+        curr_option = self.__options[0][self.__index]
+        print('Doing option {}'.format(curr_option))
+        if os.path.isdir(curr_option):
+            print('It is a directory')
+            if self.__is_root_dir:
+                self.__dirs, self.__commands = loader.find_ppmodules(
+                                                    curr_option,
+                                                    custom_path=self.__exit_mod)
+                self.__is_root_dir = False
+            else:
+                self.__dirs, self.__commands = loader.find_ppmodules(
+                                                    curr_option,
+                                                    custom_path=self.__back_mod)
+            self.__options = self.make_options(self.__dirs, self.__commands)
+            self.next_option()
+        else:
+            print('It is a module')
+            mod = __import__(curr_option)
+            mod.run(self.__cad)
 
     def make_options(self, dirs, cmds):
         print('Making iterable options')
-        return self.__dirs + self.__commands
+        return self.__options.appendleft(self.__dirs + self.__commands)
 
     def update_display(self, line):
         print('Updating display')
@@ -82,6 +105,7 @@ class PlatyPi(object):
         lcd.write(line)
 
     def close(self):
+        print('Exiting...')
         self.update_display('Exiting...')
         sleep(2)
         self.__cad.lcd.clear()

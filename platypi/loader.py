@@ -8,7 +8,7 @@ loader.py
 import os
 
 
-def find_ppmodules(path):
+def find_ppmodules(path, custom_path=None):
     print('Finding modules from {}...'.format(path))
     for root, dirs, files in os.walk(path):
         pp_files = [os.path.realpath(file_name)
@@ -18,4 +18,10 @@ def find_ppmodules(path):
                     for dir_name in dirs
                         if os.path.basename(dir_name)[:2] != '__']
         break
+        if custom_path:
+            print('Custom path is {}'.format(custom_path))
+            if os.path.isdir(custom_path):
+                pp_dirs.append(custom_path)
+            else:
+                pp_files.append(custom_path)
     return (pp_dirs, pp_files)
