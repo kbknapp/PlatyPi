@@ -52,6 +52,11 @@ class PlatyPi(object):
         self.__dirs, self.__commands = loader.find_ppmodules(
                                 os.path.join(self.__pp_dir, PPMOD_DIR))
         self.__commands.append(self.__exit_mod)
+        # DEBUG
+        print('Current commands:')
+        for cmd in self.__commands:
+            print('\tCommand {}'.format(cmd))
+        # END DEBUG
         self.__is_root_dir = False
         self.__options.appendleft(self.make_options(self.__dirs, self.__commands))
         self.next_option()
