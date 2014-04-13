@@ -30,7 +30,7 @@ ROCKER_RIGHT = 7
 ROCKER_LEFT = 6
 ROCKER_PUSH = 5
 
-exit_barrer = Barrier(2)
+exit_barrier = Barrier(2)
 
 class PlatyPi(object):
 
