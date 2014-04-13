@@ -149,6 +149,7 @@ def init_cad():
 
 
 def close():
+    print('Close called')
     exit_barrier.wait()
 
 
