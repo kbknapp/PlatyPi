@@ -25,7 +25,7 @@ if not PY3:
     sys.exit(1)
 
 VERSION = 0.1
-PPMOD_DIR = 'platypi.ppmodules'
+PPMOD_DIR = 'ppmodules'
 ROCKER_RIGHT = 7
 ROCKER_LEFT = 6
 ROCKER_PUSH = 5
@@ -43,7 +43,7 @@ class PlatyPi(object):
         self.__pp_dir = os.path.dirname(os.path.realpath(__file__))
         self.__exit_mod = os.path.join(self.__pp_dir, 'Exit.py')
         self.__back_mod = os.path.join(self.__pp_dir, 'Back.py')
-        self.__mod_prefix = '{}'.format(PPMOD_DIR)
+        self.__mod_prefix = '.{}'.format(PPMOD_DIR)
 
     def start(self):
         """Entry point for the platypi system
@@ -51,7 +51,7 @@ class PlatyPi(object):
         """
         print('Getting modules')
         self.__dirs, self.__commands = loader.find_ppmodules(
-                                os.path.join(self.__pp_dir, os.path.splitext(PPMOD_DIR)[1][1:]))
+                                os.path.join(self.__pp_dir, PPMOD_DIR))
         self.__commands.append(self.__exit_mod)
         self.__is_root_dir = False
         self.__options.appendleft(self.make_options(self.__dirs,
@@ -103,8 +103,8 @@ class PlatyPi(object):
                                     os.path.basename(
                                         os.path.splitext(curr_option)[0]))
             print('{} is a module'.format(mod_to_run))
-            mod = __import__(mod_to_run, fromlist=[self.__mod_prefix])
-            mod.run(self.__cad)
+            func = getattr(__import__(mod_to_run), 'run')
+            func(self.__cad)
 
     def make_options(self, dirs, cmds):
         print('Making iterable options')
