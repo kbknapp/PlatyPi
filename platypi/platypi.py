@@ -92,10 +92,10 @@ class PlatyPi(object):
                                                         curr_option))[0])
             self.__dirs, self.__commands = loader.find_ppmodules(curr_option)
             if self.__is_root_dir:
-                self.__commands.append(self.__exit_mod)
+                self.__commands.append('Exit')
                 self.__is_root_dir = False
             else:
-                self.__commands.append(self.__back_mod)
+                self.__commands.append('Back')
             self.__options.appendleft(self.make_options(self.__dirs,
                                                         self.__commands))
             self.next_option()
