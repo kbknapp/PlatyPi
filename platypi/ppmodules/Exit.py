@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python
-import platypi
+from ..platypi import close
 
 def run(cad=None):
-    platypi.close()
+    close()
