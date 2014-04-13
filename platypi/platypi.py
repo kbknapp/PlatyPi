@@ -41,7 +41,7 @@ class PlatyPi(object):
         self.__index = 0
         self.__is_root_dir = True
         self.__pp_dir = os.path.dirname(os.path.realpath(__file__))
-        self.__exit_mod = os.path.join(self.__pp_dir, 'Exit.py')
+        #self.__exit_mod = os.path.join(self.__pp_dir, 'Exit.py')
         self.__back_mod = os.path.join(self.__pp_dir, 'Back.py')
         self.__mod_prefix = '.{}'.format(PPMOD_DIR)
 
@@ -52,7 +52,7 @@ class PlatyPi(object):
         print('Getting modules')
         self.__dirs, self.__commands = loader.find_ppmodules(
                                 os.path.join(self.__pp_dir, PPMOD_DIR))
-        self.__commands.append(self.__exit_mod)
+        #self.__commands.append(self.__exit_mod)
         self.__is_root_dir = False
         self.__options.appendleft(self.make_options(self.__dirs,
                                                     self.__commands))
@@ -103,8 +103,8 @@ class PlatyPi(object):
                                     os.path.basename(
                                         os.path.splitext(curr_option)[0]))
             print('{} is a module'.format(mod_to_run))
-            func = getattr(__import__(mod_to_run), 'run')
-            func(self.__cad)
+            mod = __import__(mod_to_run)
+            mod.run(self.__cad)
 
     def make_options(self, dirs, cmds):
         print('Making iterable options')
