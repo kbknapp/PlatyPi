@@ -30,7 +30,7 @@ ROCKER_RIGHT = 7
 ROCKER_LEFT = 6
 ROCKER_PUSH = 5
 
-exit_barrier = Barrier(2)
+exit_barrier = None
 
 class PlatyPi(object):
 
@@ -149,9 +149,8 @@ def init_cad():
 
 
 def close():
-    print('Close called')
-
-    print('{} still need to call wait after 2nd call'.format(exit_barrier.wait()))
+    print('Close called, 2nd wait()')
+    exit_barrier.wait()
 
 
 if __name__ == '__main__':
@@ -159,8 +158,8 @@ if __name__ == '__main__':
     pp = PlatyPi(cad, PPMOD_DIR)
     pp.start()
 
-    #global exit_barrier
-    #exit_barrier = Barrier(2)
+    global exit_barrier
+    exit_barrier = Barrier(2)
 
     listener = register_buttons(cad, pp)
 
