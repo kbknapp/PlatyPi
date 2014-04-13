@@ -42,7 +42,7 @@ class PlatyPi(object):
         self.__is_root_dir = True
         self.__pp_dir = os.path.dirname(os.path.realpath(__file__))
         #self.__exit_mod = os.path.join(self.__pp_dir, 'Exit.py')
-        self.__back_mod = os.path.join(self.__pp_dir, 'Back.py')
+        #self.__back_mod = os.path.join(self.__pp_dir, 'Back.py')
         self.__mod_prefix = '{}'.format(PPMOD_DIR)
 
     def start(self):
@@ -53,10 +53,10 @@ class PlatyPi(object):
         self.__dirs, self.__commands = loader.find_ppmodules(
                                 os.path.join(self.__pp_dir, PPMOD_DIR))
         #self.__commands.append(self.__exit_mod)
+        self.__commands.append('Exit')
         self.__is_root_dir = False
         self.__options.appendleft(self.make_options(self.__dirs,
                                                     self.__commands))
-        self.__commands.append('Exit')
          # DEBUG
         print('Current options:')
         for opt in self.__options[0]:
