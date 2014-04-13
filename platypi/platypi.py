@@ -75,7 +75,7 @@ class PlatyPi(object):
         print('Doing option {}'.format(curr_option))
         if os.path.isdir(curr_option):
             print('It is a directory')
-             self.__dirs, self.__commands = loader.find_ppmodules(curr_option)
+            self.__dirs, self.__commands = loader.find_ppmodules(curr_option)
             if self.__is_root_dir:
                 self.__commands.append(self.__exit_mod)
                 self.__is_root_dir = False
