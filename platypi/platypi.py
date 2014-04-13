@@ -30,7 +30,6 @@ ROCKER_RIGHT = 7
 ROCKER_LEFT = 6
 ROCKER_PUSH = 5
 
-exit_barrier = None
 
 class PlatyPi(object):
 
@@ -150,6 +149,7 @@ def init_cad():
 
 def close():
     print('Close called, 2nd wait()')
+    global exit_barrier
     exit_barrier.wait()
 
 
