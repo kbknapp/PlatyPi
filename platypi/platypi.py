@@ -43,7 +43,7 @@ class PlatyPi(object):
         self.__pp_dir = os.path.dirname(os.path.realpath(__file__))
         self.__exit_mod = os.path.join(self.__pp_dir, 'Exit.py')
         self.__back_mod = os.path.join(self.__pp_dir, 'Back.py')
-        self.__mod_prefix = PPMOD_DIR
+        self.__mod_prefix = '.{}'.format(PPMOD_DIR)
 
     def start(self):
         """Entry point for the platypi system
