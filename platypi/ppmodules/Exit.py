@@ -3,4 +3,4 @@
 import platypi
 
 def run(cad=None):
-    platypi.exit_barrier.wait()
+    platypi.close()

@@ -148,6 +148,10 @@ def init_cad():
     return cad
 
 
+def close():
+    exit_barrier.wait()
+
+
 if __name__ == '__main__':
     cad = init_cad()
     pp = PlatyPi(cad, PPMOD_DIR)
@@ -159,7 +163,7 @@ if __name__ == '__main__':
     listener = register_buttons(cad, pp)
 
     listener.activate()
-
+    print('1st wat()')
     exit_barrier.wait()
 
     pp.close()
