@@ -150,7 +150,8 @@ def init_cad():
 
 def close():
     print('Close called')
-    exit_barrier.wait()
+
+    print('{} still need to call wait after 2nd call'.format(exit_barrier.wait()))
 
 
 if __name__ == '__main__':
@@ -164,7 +165,7 @@ if __name__ == '__main__':
     listener = register_buttons(cad, pp)
 
     listener.activate()
-    print('1st wat()')
+    print('1st wait()')
     exit_barrier.wait()
 
     pp.close()
