@@ -50,8 +50,7 @@ class PlatyPi(object):
         Return: Status (0 or 1)
         """
         print('Getting modules')
-        self.__dirs, self.__commands = loader.find_ppmodules(
-                                os.path.join(self.__pp_dir, PPMOD_DIR))
+        self.__dirs, self.__commands = loader.find_ppmodules(os.path.join(self.__pp_dir, PPMOD_DIR))
         #self.__commands.append(self.__exit_mod)
         self.__commands.append('Exit')
         self.__is_root_dir = False
@@ -94,6 +93,7 @@ class PlatyPi(object):
             else:
                 self.__commands.append('Back')
             self.__options.appendleft(self.make_options(self.__dirs, self.__commands))
+            self.__index = 0
             self.next_option()
         elif curr_option == 'Exit':
             exit_barrier.wait()
@@ -106,6 +106,7 @@ class PlatyPi(object):
             print('Popping mod_prefix')
             self.__mod_prefix.pop()
             print('New mod_prefix: {}'.format(self.__mod_prefix.__str__()))
+            self.__index = 0
             self.next_option()
         else:
             self.__mod_prefix.append(os.path.splitext(os.path.basename(curr_option))[0])
