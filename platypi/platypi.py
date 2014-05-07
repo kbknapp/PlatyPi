@@ -84,7 +84,7 @@ class PlatyPi(object):
     def do_option(self, event=None):
         curr_option = self.__options[0][self.__index]
         print('Doing option {}'.format(curr_option))
-        if os.path.isdir(curr_option):
+        if os.path.isdir(os.path.join(self.__pp_dir, curr_option)):
             print('It is a directory')
             self.__mod_prefix = '{}.{}'.format(
                                     self.__mod_prefix,
