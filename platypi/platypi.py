@@ -24,7 +24,7 @@ if not PY3:
     print('Requires Python 3.x\n\nExiting...')
     sys.exit(1)
 
-VERSION = 0.1
+VERSION = 0.2
 PPMOD_DIR = 'ppmodules'
 ROCKER_RIGHT = 7
 ROCKER_LEFT = 6
