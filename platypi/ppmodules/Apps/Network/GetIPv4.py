@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
-from .. import CADCommand
+import socket
 
-class GetIPv4(CADCommand):
-	
-	def __init__(self):
-		super(GetIPv4, self).__init__()
-		self._title = 'IPv4 Address:'
-		self._name = 'IP Address'
-	
-	
-	def execute(self):
-		return self.get_ipv4_address()
-	
-	
-	def get_ipv4_address(self):
-		"""Returns a string of the Current IP address such as 192.168.0.1"""
-		return '192.168.0.1'		# Testing ONLY
+import pifacecad
+
+MOD_VERSION = '0.1'
+
+def get_ipv4():
+    return socket.gethostbyname(socket.gethostname())
+
+def run(cad=None):
+    if cad is None:
+        cad = pifacecad.PiFaceCad()
+        cad.lcd.blink_off()
+        cad.lcd.cursor_off()
+    cad.lcd.write('IPv4 Address:')
+    ip = get_ipv4()
+    cad.lcd.set_cursor(0,1)
+    cad.lcd.write(ip)

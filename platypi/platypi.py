@@ -112,7 +112,7 @@ class PlatyPi(object):
             self.__mod_prefix.append(os.path.splitext(os.path.basename(curr_option))[0])
             mod_to_run = '.'.join(self.__mod_prefix)
             print('{} is a package'.format(mod_to_run))
-            mod_name = mod_to_run.split('.')[-1]
+            mod_name = self.__mod_prefix[-1]
             print('{} is the module'.format(mod_name))
             mod = getattr(__import__(mod_to_run), mod_name)
             mod.run(cad=self.__cad)
