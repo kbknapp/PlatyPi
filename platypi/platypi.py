@@ -43,7 +43,7 @@ class PlatyPi(object):
         self.__pp_dir = os.path.dirname(os.path.realpath(__file__))
         #self.__exit_mod = os.path.join(self.__pp_dir, 'Exit.py')
         #self.__back_mod = os.path.join(self.__pp_dir, 'Back.py')
-        self.__mod_prefix = '{}'.format(PPMOD_DIR)
+        self.__mod_prefix = [PPMOD_DIR]
 
     def start(self):
         """Entry point for the platypi system
@@ -86,10 +86,7 @@ class PlatyPi(object):
         print('Doing option {}'.format(curr_option))
         if os.path.isdir(os.path.join(self.__pp_dir, curr_option)):
             print('It is a directory')
-            self.__mod_prefix = '{}.{}'.format(
-                                    self.__mod_prefix,
-                                    os.path.splitext(os.path.basename(
-                                                        curr_option))[0])
+            self.__mod_prefix.append(os.path.splitext(os.path.basename(curr_option))[0])
             self.__dirs, self.__commands = loader.find_ppmodules(curr_option)
             if self.__is_root_dir:
                 self.__commands.append('Exit')
@@ -102,11 +99,13 @@ class PlatyPi(object):
         elif curr_option == 'Exit':
             exit_barrier.wait()
         elif curr_option == 'Back':
-            pass
+            self.__options.pop()
+            self.__mod_prefix.pop()
+            self.__mod_prefix.pop()
+            self.next_option()
         else:
-            mod_to_run = '{}.{}'.format(self.__mod_prefix,
-                                    os.path.basename(
-                                        os.path.splitext(curr_option)[0]))
+            self.__mod_prefix.append(os.path.splitext(os.path.basename(curr_option))[0])
+            mod_to_run = '.'.join(self.__mod_prefix)
             print('{} is a package'.format(mod_to_run))
             mod_name = mod_to_run.split('.')[-1]
             print('{} is the module'.format(mod_name))
