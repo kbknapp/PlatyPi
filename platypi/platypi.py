@@ -99,7 +99,7 @@ class PlatyPi(object):
             exit_barrier.wait()
         elif curr_option == 'Back':
             print('Popping options')
-            self.__options.pop()
+            self.__options.popleft()
             print('New options:')
             for opt in self.__options[0]:
                 print('\tOption {}'.format(opt))
