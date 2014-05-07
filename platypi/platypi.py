@@ -93,15 +93,20 @@ class PlatyPi(object):
                 self.__is_root_dir = False
             else:
                 self.__commands.append('Back')
-            self.__options.appendleft(self.make_options(self.__dirs,
-                                                        self.__commands))
+            self.__options.appendleft(self.make_options(self.__dirs, self.__commands))
             self.next_option()
         elif curr_option == 'Exit':
             exit_barrier.wait()
         elif curr_option == 'Back':
+            print('Popping options')
             self.__options.pop()
+            print('New options:')
+            for opt in self.__options[0]:
+            print('\tOption {}'.format(opt))
+            print('Popping mod_prefix')
             self.__mod_prefix.pop()
             self.__mod_prefix.pop()
+            print('New mod_prefix: {}'.format(self.__mod_prefix))
             self.next_option()
         else:
             self.__mod_prefix.append(os.path.splitext(os.path.basename(curr_option))[0])
