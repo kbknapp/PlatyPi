@@ -106,7 +106,7 @@ class PlatyPi(object):
             print('Popping mod_prefix')
             self.__mod_prefix.pop()
             self.__mod_prefix.pop()
-            print('New mod_prefix: {}'.format(self.__mod_prefix))
+            print('New mod_prefix: {}'.format(self.__mod_prefix.__str__()))
             self.next_option()
         else:
             self.__mod_prefix.append(os.path.splitext(os.path.basename(curr_option))[0])
