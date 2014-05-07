@@ -102,7 +102,7 @@ class PlatyPi(object):
             self.__options.pop()
             print('New options:')
             for opt in self.__options[0]:
-            print('\tOption {}'.format(opt))
+                print('\tOption {}'.format(opt))
             print('Popping mod_prefix')
             self.__mod_prefix.pop()
             self.__mod_prefix.pop()
