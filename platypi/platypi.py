@@ -109,8 +109,9 @@ class PlatyPi(object):
             self.__index = 0
             self.next_option()
         else:
-            self.__mod_prefix.append(os.path.splitext(os.path.basename(curr_option))[0])
+
             mod_to_run = '.'.join(self.__mod_prefix)
+            self.__mod_prefix.append(os.path.splitext(os.path.basename(curr_option))[0])
             print('{} is a package'.format(mod_to_run))
             mod_name = self.__mod_prefix[-1]
             print('{} is the module'.format(mod_name))
