@@ -1,1 +1,1 @@
-__author__ = 'Win7'
+__author__ = 'Kevin K. <kbknapp@gmail.com>'
