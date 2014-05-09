@@ -117,7 +117,7 @@ class PlatyPi(object):
             print('{} is a package'.format(pkg_name))
             mod_name = self.__mod_prefix[-1]
             print('{} is the module'.format(mod_name))
-            mod = getattr(__import__(pkg_name), fromlist=[pkg_name[:-1]])
+            mod = __import__(pkg_name, fromlist=[self.__mod_prefix[:-1]])
             mod.run(cad=self.__cad)
             print('Done running module')
 
