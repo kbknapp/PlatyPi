@@ -24,7 +24,7 @@ if not PY3:
     print('Requires Python 3.x\n\nExiting...')
     sys.exit(1)
 
-VERSION = '0.2.1'
+VERSION = '0.2'
 PPMOD_DIR = 'ppmodules'
 ROCKER_RIGHT = 7
 ROCKER_LEFT = 6
@@ -94,7 +94,7 @@ class PlatyPi(object):
             else:
                 self.__commands.append('Back')
             self.__options.appendleft(self.make_options(self.__dirs, self.__commands))
-            self.__index = 0
+            self.__index = -1
             self.__title.appendleft(self.__mod_prefix[-1])
             self.next_option()
         elif curr_option == 'Exit':
@@ -110,7 +110,7 @@ class PlatyPi(object):
             print('Popping mod_prefix')
             self.__mod_prefix.pop()
             print('New mod_prefix: {}'.format(self.__mod_prefix.__str__()))
-            self.__index = 0
+            self.__index = -1
             self.__title.popleft()
             self.next_option()
         else:
@@ -133,7 +133,7 @@ class PlatyPi(object):
         lcd = self.__cad.lcd
         lcd.home()
         lcd.clear()
-        lcd.write('{} (p{} of {})'.format(self.__title[0], self.__index + 1, len(self.__options[0])))
+        lcd.write('{} ({}/{})'.format(self.__title[0], self.__index + 1, len(self.__options[0])))
         lcd.set_cursor(0, 1)
         print('Writing line: {}'.format(line))
         lcd.write(line)
