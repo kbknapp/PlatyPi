@@ -7,7 +7,7 @@ platypi.py
 Controls the platypi system
 """
 import sys
-import os
+from os import path as opath
 from collections import deque
 from time import sleep
 from threading import Barrier        # Python 3
@@ -40,7 +40,7 @@ class PlatyPi(object):
         self.__commands = []
         self.__index = 0
         self.__is_root_dir = True
-        self.__pp_dir = os.path.dirname(os.path.realpath(__file__))
+        self.__pp_dir = opath.dirname(opath.realpath(__file__))
         self.__mod_prefix = [PPMOD_DIR]
         self.__title = deque()
         self.__title.appendleft(title)
@@ -51,7 +51,7 @@ class PlatyPi(object):
         """
         #self.set_title(self.__title)
         print('Getting modules')
-        self.__dirs, self.__commands = loader.find_ppmodules(os.path.join(self.__pp_dir, PPMOD_DIR))
+        self.__dirs, self.__commands = loader.find_ppmodules(opath.join(self.__pp_dir, PPMOD_DIR))
         #self.__commands.append(self.__exit_mod)
         self.__commands.append('Exit')
         self.__is_root_dir = False
@@ -71,7 +71,7 @@ class PlatyPi(object):
             self.__index = 0
         else:
             self.__index += 1
-        self.update_display(os.path.splitext(os.path.basename(self.__options[0][self.__index]))[0])
+        self.update_display(opath.splitext(opath.basename(self.__options[0][self.__index]))[0])
 
     def previous_option(self, event=None):
         print('Going to previous option')
@@ -79,14 +79,14 @@ class PlatyPi(object):
             self.__index = len(self.__options[0]) - 1
         else:
             self.__index -= 1
-        self.update_display(os.path.splitext(os.path.basename(self.__options[0][self.__index]))[0])
+        self.update_display(opath.splitext(opath.basename(self.__options[0][self.__index]))[0])
 
     def do_option(self, event=None):
         curr_option = self.__options[0][self.__index]
         print('Doing option {}'.format(curr_option))
-        if os.path.isdir(os.path.join(self.__pp_dir, curr_option)):
+        if opath.isdir(opath.join(self.__pp_dir, curr_option)):
             print('It is a directory')
-            self.__mod_prefix.append(os.path.splitext(os.path.basename(curr_option))[0])
+            self.__mod_prefix.append(opath.splitext(opath.basename(curr_option))[0])
             self.__dirs, self.__commands = loader.find_ppmodules(curr_option)
             if self.__is_root_dir:
                 self.__commands.append('Exit')
@@ -115,7 +115,7 @@ class PlatyPi(object):
             self.next_option()
         else:
             print('It is a module to run')
-            self.__mod_prefix.append(os.path.splitext(os.path.basename(curr_option))[0])
+            self.__mod_prefix.append(opath.splitext(opath.basename(curr_option))[0])
             pkg_name = '.'.join(self.__mod_prefix)
             print('{} is a package'.format(pkg_name))
             mod_name = self.__mod_prefix[-1]
