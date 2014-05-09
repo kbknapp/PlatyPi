@@ -14,7 +14,9 @@ import pifacecad
 MOD_VERSION = '0.1'
 
 def get_ipv4():
-    return subprocess.check_output('ifconfig | grep broadcast | awk "{print $2}"', shell=True).decode('utf-8')
+    ip = subprocess.check_output('ifconfig | grep broadcast | awk "{print $2}"', shell=True).decode('utf-8')
+    print('IP is: {}'.format(ip))
+    return ip
 
 def run(cad=None):
     if cad is None:

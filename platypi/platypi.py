@@ -42,13 +42,14 @@ class PlatyPi(object):
         self.__is_root_dir = True
         self.__pp_dir = os.path.dirname(os.path.realpath(__file__))
         self.__mod_prefix = [PPMOD_DIR]
-        self.__title = title
+        self.__title = deque()
+        self.__title.appendleft(title)
 
     def start(self):
         """Entry point for the platypi system
         Return: Status (0 or 1)
         """
-        self.set_title(self.__title)
+        #self.set_title(self.__title)
         print('Getting modules')
         self.__dirs, self.__commands = loader.find_ppmodules(os.path.join(self.__pp_dir, PPMOD_DIR))
         #self.__commands.append(self.__exit_mod)
@@ -94,7 +95,7 @@ class PlatyPi(object):
                 self.__commands.append('Back')
             self.__options.appendleft(self.make_options(self.__dirs, self.__commands))
             self.__index = 0
-            self.set_title(self.__mod_prefix[-1])
+            self.__title.appendleft(self.__mod_prefix[-1])
             self.next_option()
         elif curr_option == 'Exit':
             print('It is the exit command')
@@ -110,10 +111,7 @@ class PlatyPi(object):
             self.__mod_prefix.pop()
             print('New mod_prefix: {}'.format(self.__mod_prefix.__str__()))
             self.__index = 0
-            if len(self.__mod_prefix) == 1:
-                self.set_title(self.__title)
-            else:
-                self.set_title(self.__mod_prefix[-1])
+            self.__title.popleft()
             self.next_option()
         else:
             print('It is a module to run')
@@ -130,19 +128,12 @@ class PlatyPi(object):
         print('Making iterable options')
         return dirs + cmds
 
-    def set_title(self, title):
-        lcd = self.__cad.lcd
-        print('Writing title: {}'.format(title))
-        lcd.home()
-        lcd.write(' ' * pifacecad.lcd.LCD_WIDTH)
-        lcd.home()
-        lcd.write(title)
-
     def update_display(self, line):
         print('Updating display')
         lcd = self.__cad.lcd
-        lcd.set_cursor(0, 1)
-        lcd.write(' ' * pifacecad.lcd.LCD_WIDTH)
+        lcd.home()
+        lcd.clear()
+        lcd.write('{} (p{} of {})'.format(self.__title[0], self.__index + 1, len(self.__options[0])))
         lcd.set_cursor(0, 1)
         print('Writing line: {}'.format(line))
         lcd.write(line)
