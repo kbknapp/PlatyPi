@@ -134,7 +134,7 @@ class PlatyPi(object):
         lcd = self.__cad.lcd
         print('Writing title: {}'.format(title))
         lcd.home()
-        lcd.write(' ' * lcd.LCD_WIDTH)
+        lcd.write(' ' * pifacecad.lcd.LCD_WIDTH)
         lcd.home()
         lcd.write(title)
 
