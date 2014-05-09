@@ -1,12 +1,20 @@
 # -*- coding: utf-8 -*-
-import socket
+#!/usr/bin/env python
+"""
+Get's the local IPv4 address and displays to the user
+Requires:
+    * ifconfig
+    * grep
+    * awk
+"""
+import subprocess
 
 import pifacecad
 
 MOD_VERSION = '0.1'
 
 def get_ipv4():
-    return socket.gethostbyname(socket.gethostname())
+    return subprocess.check_output('ifconfig | grep broadcast | awk "{print $2}"')
 
 def run(cad=None):
     if cad is None:
