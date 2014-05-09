@@ -24,7 +24,7 @@ if not PY3:
     print('Requires Python 3.x\n\nExiting...')
     sys.exit(1)
 
-VERSION = '0.2'
+VERSION = '0.3'
 PPMOD_DIR = 'ppmodules'
 ROCKER_RIGHT = 7
 ROCKER_LEFT = 6
@@ -133,7 +133,10 @@ class PlatyPi(object):
         lcd = self.__cad.lcd
         lcd.home()
         lcd.clear()
-        lcd.write('{} ({}/{})'.format(self.__title[0], self.__index + 1, len(self.__options[0])))
+        if len(self.__title) >= 10:
+            lcd.write(self.__title)
+        else:
+            lcd.write('{} ({}/{})'.format(self.__title[0], self.__index + 1, len(self.__options[0])))
         lcd.set_cursor(0, 1)
         print('Writing line: {}'.format(line))
         lcd.write(line)
