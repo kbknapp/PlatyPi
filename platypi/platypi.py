@@ -135,7 +135,7 @@ class PlatyPi(object):
         lcd.home()
         lcd.clear()
         if len(self.__title[0]) >= 10:
-            lcd.write(self.__title)
+            lcd.write(self.__title[0])
         else:
             lcd.write('{} ({}/{})'.format(self.__title[0], self.__index + 1, len(self.__options[0])))
         lcd.set_cursor(0, 1)
