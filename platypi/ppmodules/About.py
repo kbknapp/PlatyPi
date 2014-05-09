@@ -5,7 +5,7 @@ Displays information about the PlatyPi tool
 
 import pifacecad
 
-from ..platypi import VERSION
+from .platypi import VERSION
 
 def run(cad=None):
     if cad is None:
