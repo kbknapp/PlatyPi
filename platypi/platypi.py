@@ -134,7 +134,7 @@ class PlatyPi(object):
         lcd = self.__cad.lcd
         lcd.home()
         lcd.clear()
-        if len(self.__title) >= 10:
+        if len(self.__title[0]) >= 10:
             lcd.write(self.__title)
         else:
             lcd.write('{} ({}/{})'.format(self.__title[0], self.__index + 1, len(self.__options[0])))
