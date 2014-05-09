@@ -15,5 +15,7 @@ def run(cad=None):
         cad.lcd.cursor_off()
     cad.lcd.write('IPv4 Address:')
     ip = get_ipv4()
-    cad.lcd.set_cursor(0,1)
+    cad.lcd.set_cursor(0, 1)
+    cad.lcd.write(' ' * pifacecad.lcd.LCD_WIDTH)
+    cad.lcd.set_cursor(0, 1)
     cad.lcd.write(ip)
