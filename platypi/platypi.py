@@ -96,8 +96,10 @@ class PlatyPi(object):
             self.__index = 0
             self.next_option()
         elif curr_option == 'Exit':
+            print('It is the exit command')
             exit_barrier.wait()
         elif curr_option == 'Back':
+            print('It is the back command')
             print('Popping options')
             self.__options.popleft()
             print('New options:')
@@ -109,19 +111,19 @@ class PlatyPi(object):
             self.__index = 0
             self.next_option()
         else:
-
-            mod_to_run = '.'.join(self.__mod_prefix)
+            print('It is a module to run')
             self.__mod_prefix.append(os.path.splitext(os.path.basename(curr_option))[0])
-            print('{} is a package'.format(mod_to_run))
+            pkg_name = '.'.join(self.__mod_prefix)
+            print('{} is a package'.format(pkg_name))
             mod_name = self.__mod_prefix[-1]
             print('{} is the module'.format(mod_name))
-            mod = getattr(__import__(mod_to_run), mod_name)
+            mod = getattr(__import__(pkg_name), fromlist=[pkg_name[:-1]])
             mod.run(cad=self.__cad)
             print('Done running module')
 
     def make_options(self, dirs, cmds):
         print('Making iterable options')
-        return self.__dirs + self.__commands
+        return dirs + cmds
 
     def update_display(self, line):
         print('Updating display')
