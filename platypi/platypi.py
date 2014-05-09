@@ -24,7 +24,7 @@ if not PY3:
     print('Requires Python 3.x\n\nExiting...')
     sys.exit(1)
 
-VERSION = '0.3'
+VERSION = '0.3.2'
 PPMOD_DIR = 'ppmodules'
 ROCKER_RIGHT = 7
 ROCKER_LEFT = 6
@@ -71,7 +71,7 @@ class PlatyPi(object):
             self.__index = 0
         else:
             self.__index += 1
-        self.update_display(os.path.basename(self.__options[0][self.__index]))
+        self.update_display(os.path.splitext(os.path.basename(self.__options[0][self.__index]))[0])
 
     def previous_option(self, event=None):
         print('Going to previous option')
@@ -79,7 +79,7 @@ class PlatyPi(object):
             self.__index = len(self.__options[0]) - 1
         else:
             self.__index -= 1
-        self.update_display(os.path.basename(self.__options[0][self.__index]))
+        self.update_display(os.path.splitext(os.path.basename(self.__options[0][self.__index]))[0])
 
     def do_option(self, event=None):
         curr_option = self.__options[0][self.__index]
