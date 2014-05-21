@@ -8,10 +8,11 @@ Requires:
     * awk
 """
 import subprocess
+import sys
 
 import pifacecad
 
-MOD_VERSION = '0.1'
+MOD_VERSION = '0.2'
 
 def get_ipv4():
     ip = subprocess.check_output('ifconfig | grep broadcast | awk \'{print $2}\'', shell=True).decode('utf-8')
@@ -31,3 +32,8 @@ def run(cad=None):
     cad.lcd.write(' ' * pifacecad.lcd.LCD_WIDTH)
     cad.lcd.set_cursor(0, 1)
     cad.lcd.write(ip)
+   
+   return 0
+
+if __name__ == '__main__':
+   sys.exit(run())
