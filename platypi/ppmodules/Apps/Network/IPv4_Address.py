@@ -12,7 +12,7 @@ import sys
 
 import pifacecad
 
-MOD_VERSION = '0.2'
+__VERSION = '0.2'
 
 def get_ipv4():
     ip = subprocess.check_output('ifconfig | grep broadcast | awk \'{print $2}\'', shell=True).decode('utf-8')
